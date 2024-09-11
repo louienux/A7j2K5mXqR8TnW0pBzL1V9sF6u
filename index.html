@@ -34,12 +34,44 @@
                 font-size: 1.2em; /* Adjust font size for smaller screens */
             }
         }
+
+        .blink_text
+{
+    animation:1s blinker linear infinite;
+    -webkit-animation:1s blinker linear infinite;
+    -moz-animation:1s blinker linear infinite;
+    color: red;
+}
+
+@-moz-keyframes blinker
+{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker
+{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker
+{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+ }
+
+
     </style>
 </head>
 <body>
     <div class="container">
-        Grand BiniVerse Concert Ticket: <blink><p style="color:green">SECURED</p></blink>
-        Definitely thinking of attending Olivia's concert.. <blink> hehe </blink>
+        Grand BiniVerse Concert Ticket:     
+        <span class="blink_text"><p style="color:green"> SECURED </span></p>
+        Definitely thinking of attending Olivia's concert.. <span class="blink_text">hehe </span>s
         <iframe src="https://giphy.com/embed/s3VRPZLjcj5FAbMwlf" allowFullScreen></iframe>
     </div>
 </body>
