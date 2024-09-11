@@ -16,14 +16,23 @@
             text-align: center;
         }
         .container {
-            font-size: 24px;
+            font-size: 1.5em; /* Responsive font size */
             color: #333;
-            max-width: 600px; /* Adjust max-width if needed */
+            max-width: 90%; /* Ensures container doesn't stretch too wide on large screens */
             padding: 20px;
+            box-sizing: border-box; /* Include padding in width calculation */
         }
         iframe {
-            margin-top: 20px; /* Space above the iframe */
+            width: 100%;
+            max-width: 480px; /* Max width for larger screens */
+            height: auto;
+            margin-top: 20px;
             border: none;
+        }
+        @media (max-width: 600px) {
+            .container {
+                font-size: 1.2em; /* Adjust font size for smaller screens */
+            }
         }
     </style>
 </head>
@@ -33,7 +42,7 @@
         Hence the dumb address for now. <br> 
         Here's a 🎂 while waiting. <br> <br> 
         Definitely thinking of attending Olivia's concert. Eyy! <br>
-        <iframe src="https://giphy.com/embed/s3VRPZLjcj5FAbMwlf" width="480" height="480" allowFullScreen></iframe>
+        <iframe src="https://giphy.com/embed/s3VRPZLjcj5FAbMwlf" allowFullScreen></iframe>
     </div>
 </body>
 </html>
