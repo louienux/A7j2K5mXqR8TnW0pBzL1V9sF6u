@@ -8,7 +8,7 @@ const characters = '汉字文字中国文化学习快乐程序员'; // Add more 
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = Array.from({ length: Math.floor(columns) }).fill(1);
-const specificWords = ["矩阵", "你好", "世界"]; // Array of words to show occasionally
+const specificWords = ["oragon", "pagkakalameg", "ang tamis mong magmahal"]; // Array of words to show occasionally
 
 function draw() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Fade effect
