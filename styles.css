@@ -10,6 +10,8 @@ body {
 
 .word {
     position: absolute;
-    transition: opacity 0.5s ease; /* Smooth transition for opacity */
+    transition: opacity 1.5s ease; /* Longer transition for a slow fade out */
+    opacity: 1; /* Initial opacity */
 }
+
 
