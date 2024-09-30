@@ -8,32 +8,25 @@ const poemLines = [
 ];
 
 const container = document.getElementById('poem-container');
-let currentLine = 0;
 
-// Function to show the next line of the poem
-function showNextLine() {
-    if (currentLine < poemLines.length) {
+function showNextLine(index) {
+    if (index < poemLines.length) {
         const lineElement = document.createElement('div');
-        lineElement.textContent = poemLines[currentLine];
+        lineElement.className = 'poem-line';
+        lineElement.textContent = poemLines[index];
         container.appendChild(lineElement);
 
-        // Start the scrolling effect
-        lineElement.animate(
-            [
-                { transform: 'translateX(100vw)' }, // Start off the right side
-                { transform: 'translateX(-100vw)' } // End off the left side
-            ],
-            {
-                duration: 10000, // Adjust duration for speed
-                easing: 'linear',
-                fill: 'forwards'
-            }
-        );
+        // Trigger fade-in
+        setTimeout(() => {
+            lineElement.style.opacity = 1;
+        }, 100); // Small delay to trigger CSS transition
 
-        currentLine++; // Move to the next line
-        setTimeout(showNextLine, 12000); // Delay for the next line to show (adjust as needed)
+        // Show the next line after a delay
+        setTimeout(() => {
+            showNextLine(index + 1);
+        }, 3000); // Adjust time between lines (3 seconds)
     }
 }
 
 // Start showing the poem
-showNextLine();
+showNextLine(0);
