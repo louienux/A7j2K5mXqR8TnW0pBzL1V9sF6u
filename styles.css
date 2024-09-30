@@ -12,11 +12,12 @@ body {
 
 #poem-container {
     text-align: left; /* Align text to the left */
+    padding: 20px; /* Add padding for better readability */
+    max-width: 90%; /* Limit width to 90% of the viewport */
+    overflow-wrap: break-word; /* Allow words to wrap */
+    font-size: 4vw; /* Responsive font size */
 }
 
-.poem-line {
-    opacity: 0; /* Start hidden */
-    transition: opacity 1s ease; /* Smooth fade-in */
-    margin: 10px 0; /* Space between lines */
-    white-space: pre; /* Preserve whitespace for letter-by-letter display */
+span {
+    display: inline-block; /* Ensure each character can have its own opacity */
 }
