@@ -21,7 +21,7 @@ function createWordElement(character) {
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.05; // 5% chance to show a specific word
+    const isSpecificWord = Math.random() < 0.15; // 15% chance to show a specific word
     const character = isSpecificWord 
         ? specificWords[Math.floor(Math.random() * specificWords.length)][0] // Show first letter of specific words
         : getRandomCharacter(); // Generate a single random character
