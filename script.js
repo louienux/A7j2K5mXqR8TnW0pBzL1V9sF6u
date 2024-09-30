@@ -1,4 +1,4 @@
-const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pa", "wi", "kah", "great", "do you really think you have the answer to everything?"];
+const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pa", "wi", "kah", "great", "do you really think you have the answer to everything?", "my heart still", "seems to flutter", "because of you", "maybe it's better this way", "to watch from a far", "gaze at the beautiful sight of the moon", "to not tempt fate", "to make not destiny work", "you still give me anxiety", "thank you. "];
 
 // Function to get a random character
 function getRandomCharacter() {
