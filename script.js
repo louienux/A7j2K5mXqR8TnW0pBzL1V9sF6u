@@ -16,12 +16,14 @@ function revealLineByLetter(line, index) {
 
     let letterIndex = 0;
 
+    // Function to reveal letters
     const revealInterval = setInterval(() => {
         if (letterIndex < line.length) {
             lineElement.textContent += line[letterIndex]; // Add one letter at a time
             letterIndex++;
         } else {
             clearInterval(revealInterval); // Stop when the line is fully revealed
+            lineElement.style.opacity = 1; // Fade in the line
             setTimeout(() => {
                 showNextLine(index + 1); // Move to the next line after a delay
             }, 2000); // Adjust time before showing next line (2 seconds)
