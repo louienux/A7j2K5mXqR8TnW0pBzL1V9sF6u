@@ -1,56 +1,16 @@
-* {
-    box-sizing: border-box; /* Ensure padding and border are included in width/height calculations */
-}
-
 body {
     margin: 0;
-    overflow: hidden; /* Prevent scrollbars from appearing */
+    overflow: hidden; /* Prevent scrollbars */
     background-color: black;
     color: #00FF00;
     font-family: Courier, monospace;
-    height: 100vh; /* Full height of the viewport */
-    width: 100vw; /* Full width of the viewport */
-    position: relative;
+    height: 100vh;
 }
 
-.word {
+#poem-container {
     position: absolute;
-    transition: opacity 1.5s ease; /* Longer transition for a slow fade out */
-    opacity: 1; /* Initial opacity */
-    font-size: 5vw; /* Responsive font size for smaller screens */
-    white-space: nowrap; /* Prevent text wrapping */
-}
-
-.centered {
-    position: fixed; /* Fix position in the viewport */
+    white-space: nowrap; /* Prevent line breaks */
+    font-size: 2vw; /* Responsive font size */
     top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust position to center */
-    font-size: 6vw; /* Responsive font size for centered text */
-    opacity: 1; /* Start fully visible */
-    transition: opacity 1.5s ease; /* Smooth transition for opacity */
-}
-
-.timer {
-    position: fixed; /* Fixed position */
-    top: 20px; /* Adjust top position */
-    right: 20px; /* Adjust right position */
-    color: #00FF00; /* Timer text color */
-    font-size: 5vw; /* Responsive font size for smaller screens */
-    z-index: 1000; /* Ensure it stays on top */
-}
-
-/* Media Queries for larger screens */
-@media (min-width: 768px) {
-    .word {
-        font-size: 30px; /* Fixed size for larger screens */
-    }
-    
-    .centered {
-        font-size: 32px; /* Fixed size for centered text */
-    }
-
-    .timer {
-        font-size: 20px; /* Fixed size for timer on larger screens */
-    }
+    transform: translateY(-50%); /* Adjust for vertical centering */
 }
