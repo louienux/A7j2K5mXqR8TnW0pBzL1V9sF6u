@@ -64,7 +64,12 @@ function createCenteredText() {
     document.body.appendChild(centeredText);
 }
 
-// Gradually fill the screen with specific words in random positions after 11 seconds
+// Timer element
+const timerElement = document.createElement('div');
+timerElement.className = 'timer'; // Class for styling
+document.body.appendChild(timerElement);
+
+// Gradually fill the screen with specific words after 11 seconds
 function fillScreenGradually() {
     let index = 0;
 
@@ -92,12 +97,32 @@ function fillScreenGradually() {
     }, 22000); // 11 seconds for display, 11 seconds for visibility
 }
 
+// Start the countdown timer
+function startTimer(duration) {
+    let remainingTime = duration;
+
+    const countdown = setInterval(() => {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        timerElement.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        remainingTime--;
+
+        if (remainingTime < 0) {
+            clearInterval(countdown);
+            timerElement.textContent = 'Time is up!'; // Message when time is up
+        }
+    }, 1000);
+}
+
 // Call the function to create the centered text
 createCenteredText();
 
 // Increase frequency of new characters appearing
 setInterval(showWord, 50); // Show a new word or character every 200 milliseconds
 
+// Start the timer for 22 seconds
+startTimer(22);
+
 // After 11 seconds, start filling the screen with specific words gradually
 setTimeout(fillScreenGradually, 11000);
-
