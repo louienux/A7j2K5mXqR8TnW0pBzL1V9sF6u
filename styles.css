@@ -2,8 +2,6 @@ body {
     margin: 0;
     overflow: hidden;
     background-color: black;
-}
-
-canvas {
-    display: block;
+    color: #00FF00;
+    font-family: 'Courier New', Courier, monospace;
 }
