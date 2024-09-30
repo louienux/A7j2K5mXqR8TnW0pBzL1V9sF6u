@@ -10,10 +10,10 @@ function matrixRain() {
 
   const context = canvas.getContext("2d");
   const fontSize = 14;
-  const columns = canvas.width / fontSize;
+  const columns = Math.floor(canvas.width / fontSize);
   const drops = [];
 
-  // Array of specific words to display occasionally
+  // Updated specific words to display occasionally
   const specificWords = ["oragon", "pagkakalameg", "gods don't bleed", "okay", "no no pilit"];
 
   for (let i = 0; i < columns; i++) {
@@ -33,14 +33,20 @@ function matrixRain() {
       if (Math.random() < 0.05) {
         text = specificWords[Math.floor(Math.random() * specificWords.length)];
       } else {
-        text = String.fromCharCode(Math.random() * 128);
+        text = String.fromCharCode(Math.floor(Math.random() * 128));
       }
       
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Draw the text
-      context.fillText(text, x, y);
+      // If the text is a specific word, draw each character vertically
+      if (specificWords.includes(text)) {
+        for (let j = 0; j < text.length; j++) {
+          context.fillText(text[j], x, y + j * fontSize);
+        }
+      } else {
+        context.fillText(text, x, y);
+      }
 
       if (y > canvas.height && Math.random() > 0.975) {
         drops[i] = 0; // Reset the drop position
