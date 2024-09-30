@@ -12,19 +12,21 @@ function matrixRain() {
   const fontSize = 14;
   const columns = Math.floor(canvas.width / fontSize);
   const drops = [];
+  const currentWordIndexes = []; // Array to keep track of current character index for specific words
 
   // Updated specific words to display occasionally
   const specificWords = ["oragon", "pagkakalameg", "gods don't bleed", "okay", "no no pilit"];
 
   for (let i = 0; i < columns; i++) {
     drops[i] = 1;
+    currentWordIndexes[i] = 0; // Initialize the index for each column
   }
 
   function drawMatrixRain() {
     context.fillStyle = "rgba(0, 0, 0, 0.1)";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    context.fillStyle = "#00FF00";
+    context.fillStyle = "#0000FF"; // Change text color to blue
     context.font = fontSize + "px Courier";
 
     for (let i = 0; i < drops.length; i++) {
@@ -33,6 +35,7 @@ function matrixRain() {
 
       if (isSpecificWord) {
         text = specificWords[Math.floor(Math.random() * specificWords.length)];
+        currentWordIndexes[i] = 0; // Reset index for this column
       } else {
         text = String.fromCharCode(Math.floor(Math.random() * 128));
       }
@@ -40,10 +43,11 @@ function matrixRain() {
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Only draw specific words vertically
+      // Only draw specific words character by character
       if (isSpecificWord) {
-        for (let j = 0; j < text.length; j++) {
-          context.fillText(text[j], x, y + j * fontSize);
+        if (currentWordIndexes[i] < text.length) {
+          context.fillText(text[currentWordIndexes[i]], x, y);
+          currentWordIndexes[i]++; // Move to the next character for this column
         }
       } else {
         // Draw random character if not showing a specific word
