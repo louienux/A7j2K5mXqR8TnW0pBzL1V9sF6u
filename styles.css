@@ -1,11 +1,14 @@
 body {
     margin: 0;
-    overflow: hidden;
+    overflow: hidden; /* Prevent scrollbars from appearing */
     background-color: black;
     color: #00FF00;
     font-family: Courier, monospace;
+    height: 100vh; /* Full height of the viewport */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     position: relative;
-    height: 100vh;
 }
 
 .word {
@@ -13,6 +16,7 @@ body {
     transition: opacity 1.5s ease; /* Longer transition for a slow fade out */
     opacity: 1; /* Initial opacity */
     font-size: 5vw; /* Responsive font size for smaller screens */
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .centered {
