@@ -36,18 +36,19 @@ function showWord() {
     const size = Math.random() * 20 + 10; // Size between 10px and 30px
     wordElement.style.left = `${x}px`;
     wordElement.style.top = `${y}px`;
-    wordElement.style.opacity = 1;
     wordElement.style.fontSize = `${size}px`;
 
-    // Set a shorter duration for display and fade out
-    const duration = Math.random() * 200 + 100; // Random duration between 100ms and 300ms
+    // Set a longer duration for display and fade out
+    const displayDuration = Math.random() * 200 + 100; // Show for random duration
+    const fadeOutDuration = 1500; // Longer duration for fade out
 
+    // Set a timeout for fading out
     setTimeout(() => {
         wordElement.style.opacity = 0; // Start fade out
         setTimeout(() => {
             document.body.removeChild(wordElement);
-        }, 500); // Match this with the CSS transition duration
-    }, duration); // Show for random duration
+        }, fadeOutDuration); // Match this with the CSS transition duration
+    }, displayDuration); // Show for random duration
 }
 
 // Increase frequency of new words appearing
