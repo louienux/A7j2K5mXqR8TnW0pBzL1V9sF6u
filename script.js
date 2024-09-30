@@ -3,7 +3,7 @@ const poemLines = [
     "maybe this way it's better, to watch from a far",
     "to stare & admire the beauty of the moon and the morning star",
     "to not tempt fate, to not make destiny work,",
-    "maybe one day i'll forget,",
+    "to say to myself, maybe yes, maybe one day i'll forget,",
     "maybe one day i'll forget that we ever met",
 ];
 
