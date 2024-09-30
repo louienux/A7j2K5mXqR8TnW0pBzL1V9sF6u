@@ -1,4 +1,4 @@
-const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "ang sarap ng iced coffee", "pawipins!", "meow"];
+const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pawipins!", "meow", "misyubibi"];
 
 function getRandomPosition() {
     const x = Math.random() * window.innerWidth;
@@ -32,11 +32,9 @@ function showWord() {
     const { x, y } = getRandomPosition();
     const wordElement = createWordElement(word);
 
-    // Randomize size for a more dynamic effect
-    const size = Math.random() * 20 + 10; // Size between 10px and 30px
+    // Set position and size
     wordElement.style.left = `${x}px`;
     wordElement.style.top = `${y}px`;
-    wordElement.style.fontSize = `${size}px`;
 
     // Set a longer duration for display and fade out
     const displayDuration = Math.random() * 200 + 100; // Show for random duration
