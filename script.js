@@ -1,4 +1,5 @@
 const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pawi swims", "okah", "great", "do you really think you have the answer to everything?"];
+const specificWords = ["oragon", "pagkakalameg", "gods don't bleed", "okay", "no no pilit"];
 
 // Function to get a random character
 function getRandomCharacter() {
@@ -64,18 +65,29 @@ function createCenteredText() {
     document.body.appendChild(centeredText);
 }
 
-// Timer element
-const timerElement = document.createElement('div');
-timerElement.className = 'timer'; // Class for styling
-document.body.appendChild(timerElement);
+// Clock element
+const clockElement = document.createElement('div');
+clockElement.className = 'timer'; // Class for styling
+document.body.appendChild(clockElement);
 
-// Gradually fill the screen with specific words after 11 seconds
+// Function to update the clock every second
+function startClock() {
+    let secondsElapsed = 0;
+
+    setInterval(() => {
+        secondsElapsed++;
+        clockElement.textContent = secondsElapsed; // Show just the number
+    }, 1000);
+}
+
+// Gradually fill the screen with specific words
 function fillScreenGradually() {
     let index = 0;
+    const interval = 3000; // Time between showing each specific word (in milliseconds)
 
-    const interval = setInterval(() => {
+    const wordInterval = setInterval(() => {
         if (index >= specificWords.length) {
-            clearInterval(interval); // Stop when all specific words have been displayed
+            clearInterval(wordInterval); // Stop when all specific words have been displayed
             return;
         }
 
@@ -88,41 +100,23 @@ function fillScreenGradually() {
         wordElement.style.top = `${y}px`;
 
         index++; // Move to the next specific word
-    }, 1000); // Adjust this interval for how quickly words appear
+    }, interval); // Adjust this interval for how quickly words appear
 
-    // Remove words after an additional 11 seconds
+    // Remove words after 30 seconds
     setTimeout(() => {
-        document.body.innerHTML = ''; // Clear the screen after additional 11 seconds
+        document.body.innerHTML = ''; // Clear the screen after 30 seconds
         createCenteredText(); // Keep the centered text
-    }, 22000); // 11 seconds for display, 11 seconds for visibility
-}
-
-// Start the countdown timer
-function startTimer(duration) {
-    let remainingTime = duration;
-
-    const countdown = setInterval(() => {
-        const minutes = Math.floor(remainingTime / 60);
-        const seconds = remainingTime % 60;
-        timerElement.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-        remainingTime--;
-
-        if (remainingTime < 0) {
-            clearInterval(countdown);
-            timerElement.textContent = 'Time is up!'; // Message when time is up
-        }
-    }, 1000);
+    }, 30000); // 30 seconds for visibility
 }
 
 // Call the function to create the centered text
 createCenteredText();
 
 // Increase frequency of new characters appearing
-setInterval(showWord, 50); // Show a new word or character every 200 milliseconds
+setInterval(showWord, 20); // Show a new word or character every 200 milliseconds
 
-// Start the timer for 22 seconds
-startTimer(22);
+// Start the clock
+startClock();
 
 // After 11 seconds, start filling the screen with specific words gradually
 setTimeout(fillScreenGradually, 11000);
