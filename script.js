@@ -7,8 +7,8 @@ function getRandomCharacter() {
 }
 
 function getRandomPosition() {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
+    const x = Math.random() * (window.innerWidth - 100); // Ensure it fits within the viewport
+    const y = Math.random() * (window.innerHeight - 50); // Ensure it fits within the viewport
     return { x, y };
 }
 
@@ -64,7 +64,7 @@ function createCenteredText() {
     document.body.appendChild(centeredText);
 }
 
-// Gradually fill the screen with specific words after 11 seconds
+// Gradually fill the screen with specific words in random positions after 11 seconds
 function fillScreenGradually() {
     let index = 0;
 
@@ -75,7 +75,13 @@ function fillScreenGradually() {
         }
 
         const word = specificWords[index];
-        createWordElement(word, true); // Create a specific word element
+        const { x, y } = getRandomPosition(); // Get random position for each word
+        const wordElement = createWordElement(word, true); // Create a specific word element
+
+        // Set random position for the word
+        wordElement.style.left = `${x}px`;
+        wordElement.style.top = `${y}px`;
+
         index++; // Move to the next specific word
     }, 1000); // Adjust this interval for how quickly words appear
 
@@ -90,7 +96,8 @@ function fillScreenGradually() {
 createCenteredText();
 
 // Increase frequency of new characters appearing
-setInterval(showWord, 100); // Show a new word or character every 200 milliseconds
+setInterval(showWord, 50); // Show a new word or character every 200 milliseconds
 
 // After 11 seconds, start filling the screen with specific words gradually
 setTimeout(fillScreenGradually, 11000);
+
