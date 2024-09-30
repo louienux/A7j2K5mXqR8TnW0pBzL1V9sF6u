@@ -39,9 +39,16 @@ function showWord() {
     wordElement.style.opacity = 1;
     wordElement.style.fontSize = `${size}px`;
 
+    // Set a shorter duration for display and fade out
+    const duration = Math.random() * 200 + 100; // Random duration between 100ms and 300ms
+
     setTimeout(() => {
         wordElement.style.opacity = 0;
         setTimeout(() => {
             document.body.removeChild(wordElement);
-        }, 200); // Wait for fade out before removing
-    }, 800)
+        }, 100); // Faster fade out removal
+    }, duration); // Show for random duration
+}
+
+// Increase frequency of new words appearing
+setInterval(showWord, 200); // Show a new word every 200 milliseconds
