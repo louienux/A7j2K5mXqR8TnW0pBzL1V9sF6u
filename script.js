@@ -12,10 +12,10 @@ function getRandomPosition() {
     return { x, y };
 }
 
-function createWordElement(character, isSpecific) {
+function createWordElement(content, isSpecific) {
     const wordElement = document.createElement('div');
     wordElement.className = 'word'; // Base class for all words
-    wordElement.textContent = character; // Set the random character
+    wordElement.textContent = content; // Set the content
 
     // Apply specific styles for specific words
     if (isSpecific) {
@@ -27,18 +27,17 @@ function createWordElement(character, isSpecific) {
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.15; // 20% chance to show a specific word
-    let character;
+    const isSpecificWord = Math.random() < 0.2; // 20% chance to show a specific word
+    let content;
 
     if (isSpecificWord) {
-        const specificWord = specificWords[Math.floor(Math.random() * specificWords.length)];
-        character = specificWord[0]; // Show first letter of specific words
+        content = specificWords[Math.floor(Math.random() * specificWords.length)]; // Show a specific word
     } else {
-        character = getRandomCharacter(); // Generate a single random character
+        content = getRandomCharacter(); // Generate a single random character
     }
 
     const { x, y } = getRandomPosition();
-    const wordElement = createWordElement(character, isSpecificWord);
+    const wordElement = createWordElement(content, isSpecificWord);
 
     // Set position and size
     wordElement.style.left = `${x}px`;
@@ -69,4 +68,4 @@ function createCenteredText() {
 createCenteredText();
 
 // Increase frequency of new characters appearing
-setInterval(showWord, 100); // Show a new character every 200 milliseconds
+setInterval(showWord, 100); // Show a new word or character every 200 milliseconds
