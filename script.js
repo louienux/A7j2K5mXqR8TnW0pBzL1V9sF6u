@@ -14,7 +14,7 @@ function matrixRain() {
   const drops = [];
 
   // Array of specific words to display occasionally
-  const specificWords = ["HELLO", "WORLD", "MATRIX", "JAVA", "SCRIPT"];
+  const specificWords = ["oragon", "pagkakalameg", "gods don't bleed", "okay", "no no pilit"];
 
   for (let i = 0; i < columns; i++) {
     drops[i] = 1;
@@ -39,6 +39,7 @@ function matrixRain() {
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
+      // Draw the text
       context.fillText(text, x, y);
 
       if (y > canvas.height && Math.random() > 0.975) {
