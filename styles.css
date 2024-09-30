@@ -5,18 +5,18 @@ body {
     color: black; /* Set text color to black */
     font-family: Courier, monospace;
     height: 100vh;
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
 #poem-container {
-    position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for centering */
-    text-align: center;
+    text-align: left; /* Align text to the left */
 }
 
 .poem-line {
     opacity: 0; /* Start hidden */
-    transition: opacity 2s ease; /* Smooth fade-in */
+    transition: opacity 1s ease; /* Smooth fade-in */
     margin: 10px 0; /* Space between lines */
+    white-space: pre; /* Preserve whitespace for letter-by-letter display */
 }
