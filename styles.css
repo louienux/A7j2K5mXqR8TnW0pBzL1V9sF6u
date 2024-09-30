@@ -3,5 +3,13 @@ body {
     overflow: hidden;
     background-color: black;
     color: #00FF00;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Courier, monospace;
+    position: relative;
+    height: 100vh;
+}
+
+.word {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
