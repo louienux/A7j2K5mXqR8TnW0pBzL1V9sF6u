@@ -1,45 +1,56 @@
-const canvas = document.getElementById('matrixCanvas');
-const ctx = canvas.getContext('2d');
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+function matrixRain() {
+  const canvas = document.createElement("canvas");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.position = "fixed";
+  canvas.style.top = 0;
+  canvas.style.left = 0;
+  canvas.style.zIndex = -1;
+  document.body.appendChild(canvas);
 
-// Define an array of Chinese characters
-const characters = '汉字文字中国文化学习快乐程序员'; // Add more characters as needed
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = Array.from({ length: Math.floor(columns) }).fill(1);
-const specificWords = ["oragon", "pagkakalameg", "ang tamis mong magmahal"]; // Array of words to show occasionally
+  const context = canvas.getContext("2d");
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = [];
 
-function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Fade effect
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.fillStyle = '#0F0'; // Green color for characters
-    ctx.font = `${fontSize}px monospace`;
-    
+  // Array of specific words to display occasionally
+  const specificWords = ["HELLO", "WORLD", "MATRIX", "JAVA", "SCRIPT"];
+
+  for (let i = 0; i < columns; i++) {
+    drops[i] = 1;
+  }
+
+  function drawMatrixRain() {
+    context.fillStyle = "rgba(0, 0, 0, 0.1)";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = "#00FF00";
+    context.font = fontSize + "px Courier";
+
     for (let i = 0; i < drops.length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        const isSpecificWord = Math.random() < 0.05; // 5% chance to show specific word
+      let text;
+      // 5% chance to show a specific word
+      if (Math.random() < 0.05) {
+        text = specificWords[Math.floor(Math.random() * specificWords.length)];
+      } else {
+        text = String.fromCharCode(Math.random() * 128);
+      }
+      
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
 
-        // Calculate the y position for the current drop
-        const dropYPosition = drops[i] * fontSize;
-        const wordToDisplay = isSpecificWord ? specificWords[Math.floor(Math.random() * specificWords.length)] : characters[randomIndex];
+      context.fillText(text, x, y);
 
-        // Display the specific word only if it won't overlap
-        if (isSpecificWord && dropYPosition + fontSize < canvas.height) {
-            ctx.fillText(wordToDisplay, i * fontSize, dropYPosition);
-        } else if (!isSpecificWord) {
-            ctx.fillText(characters[randomIndex], i * fontSize, dropYPosition);
-        }
+      if (y > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0; // Reset the drop position
+      }
 
-        // Reset drop to the top after it goes out of the canvas
-        if (dropYPosition > canvas.height) {
-            drops[i] = 0;
-        }
-
-        // Increment drop position
-        drops[i]++;
+      drops[i]++;
     }
+  }
+
+  setInterval(drawMatrixRain, 50);
 }
 
-setInterval(draw, 50);
+// Call the function to start the effect
+matrixRain();
