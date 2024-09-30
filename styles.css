@@ -14,4 +14,14 @@ body {
     opacity: 1; /* Initial opacity */
 }
 
+.centered {
+    position: fixed; /* Fix position in the viewport */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position to center */
+    font-size: 24px; /* Adjust font size as needed */
+    opacity: 1; /* Start fully visible */
+    transition: opacity 1.5s ease; /* Smooth transition for opacity */
+}
+
 
