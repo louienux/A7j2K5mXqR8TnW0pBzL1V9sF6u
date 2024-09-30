@@ -27,7 +27,7 @@ function createWordElement(content, isSpecific) {
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.08; // 20% chance to show a specific word
+    const isSpecificWord = Math.random() < 0.2; // 20% chance to show a specific word
     let content;
 
     if (isSpecificWord) {
@@ -64,34 +64,33 @@ function createCenteredText() {
     document.body.appendChild(centeredText);
 }
 
-// Fill the screen with specific words
-function fillScreenWithSpecificWords() {
-    // Clear the existing content
-    document.body.innerHTML = '';
+// Gradually fill the screen with specific words after 11 seconds
+function fillScreenGradually() {
+    let index = 0;
 
-    // Create a grid of specific words
-    const rows = Math.ceil(window.innerHeight / 50); // Adjust for word height
-    const cols = Math.ceil(window.innerWidth / 100); // Adjust for word width
-
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            const word = specificWords[Math.floor(Math.random() * specificWords.length)];
-            const wordElement = createWordElement(word, true); // true for specific word
-
-            // Position the words in a grid
-            wordElement.style.position = 'absolute';
-            wordElement.style.left = `${j * 100}px`; // Space between words
-            wordElement.style.top = `${i * 50}px`; // Space between rows
+    const interval = setInterval(() => {
+        if (index >= specificWords.length) {
+            clearInterval(interval); // Stop when all specific words have been displayed
+            return;
         }
-    }
+
+        const word = specificWords[index];
+        createWordElement(word, true); // Create a specific word element
+        index++; // Move to the next specific word
+    }, 1000); // Adjust this interval for how quickly words appear
+
+    // Remove words after an additional 11 seconds
+    setTimeout(() => {
+        document.body.innerHTML = ''; // Clear the screen after additional 11 seconds
+        createCenteredText(); // Keep the centered text
+    }, 22000); // 11 seconds for display, 11 seconds for visibility
 }
 
 // Call the function to create the centered text
 createCenteredText();
 
 // Increase frequency of new characters appearing
-setInterval(showWord, 50); // Show a new word or character every 200 milliseconds
+setInterval(showWord, 100); // Show a new word or character every 200 milliseconds
 
-// After 11 seconds, fill the screen with specific words
-setTimeout(fillScreenWithSpecificWords, 11000);
-
+// After 11 seconds, start filling the screen with specific words gradually
+setTimeout(fillScreenGradually, 11000);
