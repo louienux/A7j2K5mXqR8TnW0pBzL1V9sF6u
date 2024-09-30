@@ -1,16 +1,22 @@
 body {
     margin: 0;
     overflow: hidden; /* Prevent scrollbars */
-    background-color: black;
-    color: #00FF00;
+    background-color: white; /* Set background to white */
+    color: black; /* Set text color to black */
     font-family: Courier, monospace;
     height: 100vh;
 }
 
 #poem-container {
     position: absolute;
-    white-space: nowrap; /* Prevent line breaks */
-    font-size: 2vw; /* Responsive font size */
     top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Adjust for vertical centering */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for centering */
+    text-align: center;
+}
+
+.poem-line {
+    opacity: 0; /* Start hidden */
+    transition: opacity 2s ease; /* Smooth fade-in */
+    margin: 10px 0; /* Space between lines */
 }
