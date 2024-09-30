@@ -26,36 +26,26 @@ function matrixRain() {
     context.fillStyle = "rgba(0, 0, 0, 0.1)";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    context.fillStyle = "#0000FF"; // Change text color to blue
+    context.fillStyle = "#00FF00"; // Change text color back to green
     context.font = fontSize + "px Courier";
 
     for (let i = 0; i < drops.length; i++) {
-      const isSpecificWord = Math.random() < 0.05; // 5% chance to show a specific word
-      let text;
-
-      if (isSpecificWord) {
-        text = specificWords[Math.floor(Math.random() * specificWords.length)];
-        currentWordIndexes[i] = 0; // Reset index for this column
-      } else {
-        text = String.fromCharCode(Math.floor(Math.random() * 128));
-      }
+      // Show only specific words
+      const wordIndex = Math.floor(Math.random() * specificWords.length);
+      const text = specificWords[wordIndex];
 
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Only draw specific words character by character
-      if (isSpecificWord) {
-        if (currentWordIndexes[i] < text.length) {
-          context.fillText(text[currentWordIndexes[i]], x, y);
-          currentWordIndexes[i]++; // Move to the next character for this column
-        }
-      } else {
-        // Draw random character if not showing a specific word
-        context.fillText(text, x, y);
+      // Draw specific words character by character
+      if (currentWordIndexes[i] < text.length) {
+        context.fillText(text[currentWordIndexes[i]], x, y);
+        currentWordIndexes[i]++; // Move to the next character for this column
       }
 
       if (y > canvas.height && Math.random() > 0.975) {
         drops[i] = 0; // Reset the drop position
+        currentWordIndexes[i] = 0; // Reset the character index for this column
       }
 
       drops[i]++;
