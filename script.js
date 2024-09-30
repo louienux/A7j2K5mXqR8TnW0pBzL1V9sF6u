@@ -12,22 +12,33 @@ function getRandomPosition() {
     return { x, y };
 }
 
-function createWordElement(character) {
+function createWordElement(character, isSpecific) {
     const wordElement = document.createElement('div');
-    wordElement.className = 'word'; // Ensure this applies the CSS class
+    wordElement.className = 'word'; // Base class for all words
     wordElement.textContent = character; // Set the random character
+
+    // Apply specific styles for specific words
+    if (isSpecific) {
+        wordElement.style.color = 'red'; // Change specific word color to red
+    }
+
     document.body.appendChild(wordElement);
     return wordElement;
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.15; // 15% chance to show a specific word
-    const character = isSpecificWord 
-        ? specificWords[Math.floor(Math.random() * specificWords.length)][0] // Show first letter of specific words
-        : getRandomCharacter(); // Generate a single random character
+    const isSpecificWord = Math.random() < 0.15; // 20% chance to show a specific word
+    let character;
+
+    if (isSpecificWord) {
+        const specificWord = specificWords[Math.floor(Math.random() * specificWords.length)];
+        character = specificWord[0]; // Show first letter of specific words
+    } else {
+        character = getRandomCharacter(); // Generate a single random character
+    }
 
     const { x, y } = getRandomPosition();
-    const wordElement = createWordElement(character);
+    const wordElement = createWordElement(character, isSpecificWord);
 
     // Set position and size
     wordElement.style.left = `${x}px`;
