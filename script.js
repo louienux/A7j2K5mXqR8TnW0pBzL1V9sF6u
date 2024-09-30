@@ -17,7 +17,7 @@ function getRandomCharacters(length) {
 
 function createWordElement(word) {
     const wordElement = document.createElement('div');
-    wordElement.className = 'word';
+    wordElement.className = 'word'; // Ensure this applies the CSS class
     wordElement.textContent = word;
     document.body.appendChild(wordElement);
     return wordElement;
@@ -43,10 +43,10 @@ function showWord() {
     const duration = Math.random() * 200 + 100; // Random duration between 100ms and 300ms
 
     setTimeout(() => {
-        wordElement.style.opacity = 0;
+        wordElement.style.opacity = 0; // Start fade out
         setTimeout(() => {
             document.body.removeChild(wordElement);
-        }, 100); // Faster fade out removal
+        }, 500); // Match this with the CSS transition duration
     }, duration); // Show for random duration
 }
 
