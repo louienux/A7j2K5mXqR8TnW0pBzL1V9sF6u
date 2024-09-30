@@ -3,81 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>o6nt</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            text-align: center;
-        }
-        .container {
-            font-size: 1.5em; /* Responsive font size */
-            color: #333;
-            max-width: 90%; /* Ensures container doesn't stretch too wide on large screens */
-            padding: 20px;
-            box-sizing: border-box; /* Include padding in width calculation */
-        }
-        iframe {
-            width: 100%;
-            max-width: 480px; /* Max width for larger screens */
-            height: auto;
-            margin-top: 20px;
-            border: none;
-        }
-        @media (max-width: 600px) {
-            .container {
-                font-size: 1.2em; /* Adjust font size for smaller screens */
-            }
-        }
-
-        .blink_text
-{
-    animation:1s blinker linear infinite;
-    -webkit-animation:1s blinker linear infinite;
-    -moz-animation:1s blinker linear infinite;
-    color: green;
-}
-
-@-moz-keyframes blinker
-{  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.0; }
-    100% { opacity: 1.0; }
-}
-
-@-webkit-keyframes blinker
-{  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.0; }
-    100% { opacity: 1.0; }
-}
-
-@keyframes blinker
-{  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.0; }
-    100% { opacity: 1.0; }
- }
-.small_text {
-    font-size: 0.9em; /* Adjust this value to make the text smaller or larger as needed */
-}
-    </style>
-
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-
+    <title>Matrix Rain Effect</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-<br>
-<div class=blink_text> 😝 </div>
-    </div>
+    <canvas id="matrixCanvas"></canvas>
+    <script src="script.js"></script>
 </body>
 </html>
