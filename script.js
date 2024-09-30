@@ -9,22 +9,29 @@ const poemLines = [
 
 const container = document.getElementById('poem-container');
 
+function revealLineByLetter(line, index) {
+    const lineElement = document.createElement('div');
+    lineElement.className = 'poem-line';
+    container.appendChild(lineElement);
+
+    let letterIndex = 0;
+
+    const revealInterval = setInterval(() => {
+        if (letterIndex < line.length) {
+            lineElement.textContent += line[letterIndex]; // Add one letter at a time
+            letterIndex++;
+        } else {
+            clearInterval(revealInterval); // Stop when the line is fully revealed
+            setTimeout(() => {
+                showNextLine(index + 1); // Move to the next line after a delay
+            }, 2000); // Adjust time before showing next line (2 seconds)
+        }
+    }, 100); // Adjust time between letters (100ms)
+}
+
 function showNextLine(index) {
     if (index < poemLines.length) {
-        const lineElement = document.createElement('div');
-        lineElement.className = 'poem-line';
-        lineElement.textContent = poemLines[index];
-        container.appendChild(lineElement);
-
-        // Trigger fade-in
-        setTimeout(() => {
-            lineElement.style.opacity = 1;
-        }, 100); // Small delay to trigger CSS transition
-
-        // Show the next line after a delay
-        setTimeout(() => {
-            showNextLine(index + 1);
-        }, 3000); // Adjust time between lines (3 seconds)
+        revealLineByLetter(poemLines[index], index); // Reveal line letter by letter
     }
 }
 
