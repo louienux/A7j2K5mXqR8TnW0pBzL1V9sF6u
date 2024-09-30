@@ -27,7 +27,7 @@ function createWordElement(content, isSpecific) {
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.2; // 20% chance to show a specific word
+    const isSpecificWord = Math.random() < 0.05; // 20% chance to show a specific word
     let content;
 
     if (isSpecificWord) {
@@ -115,7 +115,6 @@ createCenteredText();
 setInterval(showWord, 20); // Show a new word or character every 200 milliseconds
 
 // Start the clock
-startClock();
 
 // After 11 seconds, start filling the screen with specific words gradually
 setTimeout(fillScreenGradually, 11000);
