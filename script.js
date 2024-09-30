@@ -51,5 +51,16 @@ function showWord() {
     }, displayDuration); // Show for random duration
 }
 
+// Create and position the centered text
+function createCenteredText() {
+    const centeredText = document.createElement('div');
+    centeredText.className = 'centered'; // Apply centered style
+    centeredText.textContent = "how are you?";
+    document.body.appendChild(centeredText);
+}
+
+// Call the function to create the centered text
+createCenteredText();
+
 // Increase frequency of new words appearing
 setInterval(showWord, 200); // Show a new word every 200 milliseconds
