@@ -1,36 +1,33 @@
 const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pawipins!", "meow", "misyubibi"];
 
+// Function to get a random character
+function getRandomCharacter() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    return characters.charAt(Math.floor(Math.random() * characters.length));
+}
+
 function getRandomPosition() {
     const x = Math.random() * window.innerWidth;
     const y = Math.random() * window.innerHeight;
     return { x, y };
 }
 
-function getRandomCharacters(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-}
-
-function createWordElement(word) {
+function createWordElement(character) {
     const wordElement = document.createElement('div');
     wordElement.className = 'word'; // Ensure this applies the CSS class
-    wordElement.textContent = word;
+    wordElement.textContent = character; // Set the random character
     document.body.appendChild(wordElement);
     return wordElement;
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.10; // 10% chance to show a specific word
-    const word = isSpecificWord 
-        ? specificWords[Math.floor(Math.random() * specificWords.length)]
-        : getRandomCharacters(6); // Generate a string of 6 random characters
+    const isSpecificWord = Math.random() < 0.05; // 5% chance to show a specific word
+    const character = isSpecificWord 
+        ? specificWords[Math.floor(Math.random() * specificWords.length)][0] // Show first letter of specific words
+        : getRandomCharacter(); // Generate a single random character
 
     const { x, y } = getRandomPosition();
-    const wordElement = createWordElement(word);
+    const wordElement = createWordElement(character);
 
     // Set position and size
     wordElement.style.left = `${x}px`;
@@ -60,5 +57,5 @@ function createCenteredText() {
 // Call the function to create the centered text
 createCenteredText();
 
-// Increase frequency of new words appearing
-setInterval(showWord, 200); // Show a new word every 200 milliseconds
+// Increase frequency of new characters appearing
+setInterval(showWord, 100); // Show a new character every 200 milliseconds
