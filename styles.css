@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box; /* Ensure padding and border are included in width/height calculations */
+}
+
 body {
     margin: 0;
     overflow: hidden; /* Prevent scrollbars from appearing */
@@ -5,9 +9,7 @@ body {
     color: #00FF00;
     font-family: Courier, monospace;
     height: 100vh; /* Full height of the viewport */
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    width: 100vw; /* Full width of the viewport */
     position: relative;
 }
 
