@@ -68,4 +68,4 @@ function createCenteredText() {
 createCenteredText();
 
 // Increase frequency of new characters appearing
-setInterval(showWord, 100); // Show a new word or character every 200 milliseconds
+setInterval(showWord, 50); // Show a new word or character every 200 milliseconds
