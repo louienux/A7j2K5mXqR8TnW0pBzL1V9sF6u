@@ -9,33 +9,31 @@ const poemLines = [
 
 const container = document.getElementById('poem-container');
 
-function revealLineByLetter(line, index) {
-    const lineElement = document.createElement('div');
-    lineElement.className = 'poem-line';
-    container.appendChild(lineElement);
-
+function revealPoemLetterByLetter() {
     let letterIndex = 0;
 
-    // Function to reveal letters
     const revealInterval = setInterval(() => {
-        if (letterIndex < line.length) {
-            lineElement.textContent += line[letterIndex]; // Add one letter at a time
+        if (letterIndex < poem.length) {
+            const currentChar = poem[letterIndex];
+
+            // Create a span for each letter (to manage opacity individually)
+            const charElement = document.createElement('span');
+            charElement.textContent = currentChar;
+            charElement.style.opacity = 0; // Start hidden
+            container.appendChild(charElement);
+
+            // Fade in the character
+            setTimeout(() => {
+                charElement.style.transition = 'opacity 0.5s ease'; // Transition for fade-in
+                charElement.style.opacity = 1; // Make it visible
+            }, 10); // Small delay to trigger the CSS transition
+
             letterIndex++;
         } else {
-            clearInterval(revealInterval); // Stop when the line is fully revealed
-            lineElement.style.opacity = 1; // Fade in the line
-            setTimeout(() => {
-                showNextLine(index + 1); // Move to the next line after a delay
-            }, 2000); // Adjust time before showing next line (2 seconds)
+            clearInterval(revealInterval); // Stop when the poem is fully revealed
         }
     }, 100); // Adjust time between letters (100ms)
 }
 
-function showNextLine(index) {
-    if (index < poemLines.length) {
-        revealLineByLetter(poemLines[index], index); // Reveal line letter by letter
-    }
-}
-
-// Start showing the poem
-showNextLine(0);
+// Start revealing the poem
+revealPoemLetterByLetter()
