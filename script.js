@@ -24,7 +24,7 @@ function createWordElement(word) {
 }
 
 function showWord() {
-    const isSpecificWord = Math.random() < 0.2; // 20% chance to show a specific word
+    const isSpecificWord = Math.random() < 0.10; // 10% chance to show a specific word
     const word = isSpecificWord 
         ? specificWords[Math.floor(Math.random() * specificWords.length)]
         : getRandomCharacters(6); // Generate a string of 6 random characters
