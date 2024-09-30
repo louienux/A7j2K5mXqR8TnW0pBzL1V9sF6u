@@ -32,16 +32,16 @@ function showWord() {
     const { x, y } = getRandomPosition();
     const wordElement = createWordElement(word);
 
+    // Randomize size for a more dynamic effect
+    const size = Math.random() * 20 + 10; // Size between 10px and 30px
     wordElement.style.left = `${x}px`;
     wordElement.style.top = `${y}px`;
     wordElement.style.opacity = 1;
+    wordElement.style.fontSize = `${size}px`;
 
     setTimeout(() => {
         wordElement.style.opacity = 0;
         setTimeout(() => {
             document.body.removeChild(wordElement);
-        }, 500); // Wait for fade out before removing
-    }, 1500); // Show for 1.5 seconds
-}
-
-setInterval(showWord, 2000); // Show a new word every 2 seconds
+        }, 200); // Wait for fade out before removing
+    }, 800)
