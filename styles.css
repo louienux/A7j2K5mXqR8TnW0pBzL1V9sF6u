@@ -12,6 +12,7 @@ body {
     position: absolute;
     transition: opacity 1.5s ease; /* Longer transition for a slow fade out */
     opacity: 1; /* Initial opacity */
+    font-size: 5vw; /* Responsive font size for smaller screens */
 }
 
 .centered {
@@ -19,9 +20,18 @@ body {
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust position to center */
-    font-size: 24px; /* Adjust font size as needed */
+    font-size: 6vw; /* Responsive font size for centered text */
     opacity: 1; /* Start fully visible */
     transition: opacity 1.5s ease; /* Smooth transition for opacity */
 }
 
-
+/* Media Queries for larger screens */
+@media (min-width: 768px) {
+    .word {
+        font-size: 30px; /* Fixed size for larger screens */
+    }
+    
+    .centered {
+        font-size: 32px; /* Fixed size for centered text */
+    }
+}
