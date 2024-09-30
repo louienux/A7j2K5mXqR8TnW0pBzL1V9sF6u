@@ -1,4 +1,4 @@
-const specificWords = ["oragon", "pagkakalameg", "gods don't bleed", "okay", "no no pilit"];
+const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "ang sarap ng iced coffee", "pawipins!", "meow"];
 
 function getRandomPosition() {
     const x = Math.random() * window.innerWidth;
