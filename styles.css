@@ -31,6 +31,15 @@ body {
     transition: opacity 1.5s ease; /* Smooth transition for opacity */
 }
 
+.timer {
+    position: fixed; /* Fixed position */
+    top: 20px; /* Adjust top position */
+    right: 20px; /* Adjust right position */
+    color: #00FF00; /* Timer text color */
+    font-size: 5vw; /* Responsive font size for smaller screens */
+    z-index: 1000; /* Ensure it stays on top */
+}
+
 /* Media Queries for larger screens */
 @media (min-width: 768px) {
     .word {
@@ -39,5 +48,9 @@ body {
     
     .centered {
         font-size: 32px; /* Fixed size for centered text */
+    }
+
+    .timer {
+        font-size: 20px; /* Fixed size for timer on larger screens */
     }
 }
