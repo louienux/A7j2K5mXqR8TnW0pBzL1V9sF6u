@@ -1,4 +1,4 @@
-const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pawi swims", "okah", "great", "do you really think you have the answer to everything?"];
+const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pa", "wi", "kah", "great", "do you really think you have the answer to everything?"];
 
 // Function to get a random character
 function getRandomCharacter() {
@@ -101,20 +101,18 @@ function fillScreenGradually() {
         index++; // Move to the next specific word
     }, interval); // Adjust this interval for how quickly words appear
 
-    // Remove words after 30 seconds
-    setTimeout(() => {
-        document.body.innerHTML = ''; // Clear the screen after 30 seconds
-        createCenteredText(); // Keep the centered text
-    }, 30000); // 30 seconds for visibility
+    // Removed the clearing of the screen after 30 seconds
 }
 
 // Call the function to create the centered text
 createCenteredText();
 
 // Increase frequency of new characters appearing
-setInterval(showWord, 20); // Show a new word or character every 200 milliseconds
+setInterval(showWord, 30); // Show a new word or character every 200 milliseconds
 
 // Start the clock
+startClock();
 
 // After 11 seconds, start filling the screen with specific words gradually
 setTimeout(fillScreenGradually, 11000);
+
