@@ -1,5 +1,4 @@
 const specificWords = ["fine?", "let me know", "gods don't bleed", "okay", "oragon", "pawi swims", "okah", "great", "do you really think you have the answer to everything?"];
-const specificWords = ["oragon", "pagkakalameg", "gods don't bleed", "okay", "no no pilit"];
 
 // Function to get a random character
 function getRandomCharacter() {
