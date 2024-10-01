@@ -8,6 +8,7 @@ body {
     display: flex;
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
+    position: relative; /* To position the cursor */
 }
 
 #poem-container {
@@ -25,9 +26,27 @@ span {
     display: inline-block; /* Ensure each character can have its own opacity */
 }
 
+#cursor {
+    font-size: 4vw; /* Match the poem's font size */
+    color: black; /* Cursor color */
+    position: absolute; /* Position it relative to the container */
+    left: 0; /* Adjust as needed to align with the last character */
+    animation: blink 0.7s step-end infinite; /* Blinking effect */
+}
+
+/* Cursor blinking animation */
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
 /* Media Queries for larger screens */
 @media (min-width: 768px) {
     #poem-container {
         font-size: 20px; /* Set fixed font size for larger screens */
+    }
+    #cursor {
+        font-size: 20px; /* Adjust cursor size for larger screens */
     }
 }
