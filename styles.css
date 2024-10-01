@@ -13,10 +13,12 @@ body {
 #poem-container {
     text-align: left; /* Align text to the left */
     padding: 20px; /* Add padding for better readability */
-    max-width: 90%; /* Limit width to 90% of the viewport */
+    width: 100%; /* Full width */
+    max-width: 600px; /* Maximum width to prevent overflow */
     overflow-wrap: break-word; /* Allow words to wrap */
     font-size: 3vw; /* Responsive font size for better fit on smaller screens */
     line-height: 1.5; /* Increase line height for better readability */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 span {
