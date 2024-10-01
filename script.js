@@ -24,12 +24,12 @@ function revealLineByLine(lineIndex) {
                 // Create a span for each letter
                 const charElement = document.createElement('span');
                 charElement.textContent = currentChar === ' ' ? '\u00A0' : currentChar; // Use non-breaking space
+                charElement.style.opacity = 0; // Start hidden
+                charElement.style.transition = 'opacity 0.3s ease'; // Set transition for fade-in
                 container.appendChild(charElement);
 
-                // Fade in the character
-                charElement.style.opacity = 0; // Start hidden
+                // Trigger the fade-in
                 setTimeout(() => {
-                    charElement.style.transition = 'opacity 0.1s ease'; // Transition for fade-in
                     charElement.style.opacity = 1; // Make it visible
                 }, 10); // Small delay to trigger the CSS transition
 
