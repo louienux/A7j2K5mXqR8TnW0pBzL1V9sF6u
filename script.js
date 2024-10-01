@@ -3,8 +3,13 @@ const poemLines = [
     "maybe this way it's better, to watch from afar",
     "to stare & admire the beauty of the moon and the morning star",
     "to not tempt fate, to not make destiny work,",
-    "to say to myself, maybe yes, maybe one day i'll forget,",
-    "maybe one day i'll forget that we ever met"
+    "to say to myself, maybe one day i'll forget,",
+    "... that we ever met",
+    ""
+    "🌑🌒🌓🌔🌕🌖🌗🌘"
+    "let you be my reminder of how fate happens,"
+    "that perhaps i was in the right place and time,"
+    "yet was not destined to be"
 ];
 
 const container = document.getElementById('poem-container');
