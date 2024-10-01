@@ -5,10 +5,10 @@ const poemLines = [
     "to not tempt fate, to not make destiny work,",
     "to say to myself, maybe one day i'll forget,",
     "... that we ever met",
-    ""
-    "🌑🌒🌓🌔🌕🌖🌗🌘"
-    "let you be my reminder of how fate happens,"
-    "that perhaps i was in the right place and time,"
+    "",
+    "🌑🌒🌓🌔🌕🌖🌗🌘",
+    "let you be my reminder of how fate happens,",
+    "that perhaps i was in the right place and time,",
     "yet was not destined to be"
 ];
 
