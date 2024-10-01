@@ -38,9 +38,11 @@ function revealLineByLine(lineIndex) {
             } else {
                 clearInterval(revealInterval); // Stop when the line is fully revealed
 
-                // Position the cursor after the line is fully revealed
-                const lastChar = container.lastChild; // Get the last character of the line
-                cursor.style.left = `${lastChar.offsetLeft + lastChar.offsetWidth}px`; // Align cursor after last character
+                // Wait for the line to be fully rendered before positioning the cursor
+                setTimeout(() => {
+                    const lastChar = container.lastChild; // Get the last character of the line
+                    cursor.style.left = `${lastChar.offsetLeft + lastChar.offsetWidth}px`; // Align cursor after last character
+                }, 50); // Small delay to ensure the layout is updated
 
                 setTimeout(() => {
                     container.appendChild(document.createElement('br')); // Add a line break
