@@ -35,11 +35,13 @@ function revealLineByLine(lineIndex) {
                 }, 10); // Small delay to trigger the CSS transition
 
                 letterIndex++;
-
-                // Update cursor position
-                cursor.style.left = `${charElement.offsetLeft + charElement.offsetWidth}px`;
             } else {
                 clearInterval(revealInterval); // Stop when the line is fully revealed
+
+                // Position the cursor after the line is fully revealed
+                const lastChar = container.lastChild; // Get the last character of the line
+                cursor.style.left = `${lastChar.offsetLeft + lastChar.offsetWidth}px`; // Align cursor after last character
+
                 setTimeout(() => {
                     container.appendChild(document.createElement('br')); // Add a line break
                     revealLineByLine(lineIndex + 1); // Move to the next line
