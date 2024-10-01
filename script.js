@@ -11,6 +11,7 @@ const poemLines = [
 ];
 
 const container = document.getElementById('poem-container');
+const cursor = document.getElementById('cursor');
 
 function revealLineByLine(lineIndex) {
     if (lineIndex < poemLines.length) {
@@ -34,6 +35,9 @@ function revealLineByLine(lineIndex) {
                 }, 10); // Small delay to trigger the CSS transition
 
                 letterIndex++;
+
+                // Update cursor position
+                cursor.style.left = `${charElement.offsetLeft + charElement.offsetWidth}px`;
             } else {
                 clearInterval(revealInterval); // Stop when the line is fully revealed
                 setTimeout(() => {
@@ -42,6 +46,8 @@ function revealLineByLine(lineIndex) {
                 }, 1000); // Wait before showing the next line (1 second)
             }
         }, 150); // Adjust time between letters (150ms for typewriter effect)
+    } else {
+        cursor.style.display = 'none'; // Hide cursor after all lines are revealed
     }
 }
 
