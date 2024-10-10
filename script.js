@@ -1,51 +1,79 @@
-const poemLines = [
-    "ang sakit ng likod ko"
-];
+const phrases = ["pawi", ";)", "how are you", "i'm here", "not unreachable", "but here", "dear name", "am i fine?", "is this okay?", "you can reach out", "it's okay", "be safe", "always", "beautiful like the moon", "i will be back", "you can thank", "the stars", "all you want but", "i'll always be the lucky one"];
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-const container = document.getElementById('poem-container');
-const cursor = document.getElementById('cursor');
+let container = document.getElementById('container');
 
-function revealLineByLine(lineIndex) {
-    if (lineIndex < poemLines.length) {
-        const line = poemLines[lineIndex];
-        let letterIndex = 0;
+function getRandomPhrase() {
+    return phrases[Math.floor(Math.random() * phrases.length)];
+}
 
-        const revealInterval = setInterval(() => {
-            if (letterIndex < line.length) {
-                const currentChar = line[letterIndex];
+function getRandomChar() {
+    return chars.charAt(Math.floor(Math.random() * chars.length));
+}
 
-                // Create a span for each letter
-                const charElement = document.createElement('span');
-                charElement.textContent = currentChar === ' ' ? '\u00A0' : currentChar; // Use non-breaking space
-                charElement.style.opacity = 0; // Start hidden
-                charElement.style.transition = 'opacity 0.3s ease'; // Set transition for fade-in
-                container.appendChild(charElement);
+function getRandomPosition() {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    const randomTop = Math.floor(Math.random() * windowHeight) + 'px';
+    const randomLeft = Math.floor(Math.random() * windowWidth) + 'px';
+    return { top: randomTop, left: randomLeft };
+}
 
-                // Trigger the fade-in
-                setTimeout(() => {
-                    charElement.style.opacity = 1; // Make it visible
-                }, 10); // Small delay to trigger the CSS transition
+function createDiv(type) {
+    const div = document.createElement('div');
+    div.classList.add(type);
+    div.style.transform = 'scale(0.5)'; // Initial scale
+    div.style.opacity = '1'; // Initial opacity
+    return div;
+}
 
-                letterIndex++;
-            } else {
-                clearInterval(revealInterval); // Stop when the line is fully revealed
+function showElement(type, content, position) {
+    const div = createDiv(type);
+    container.appendChild(div);
+    div.innerHTML = content;
+    div.style.top = position.top;
+    div.style.left = position.left;
 
-                // Wait for the line to be fully rendered before positioning the cursor
-                setTimeout(() => {
-                    const lastChar = container.lastChild; // Get the last character of the line
-                    cursor.style.left = `${lastChar.offsetLeft + lastChar.offsetWidth}px`; // Align cursor after last character
-                }, 50); // Small delay to ensure the layout is updated
+    requestAnimationFrame(() => {
+        div.style.transform = 'scale(2)'; // Grow to 200%
+        div.style.opacity = '0';
+    });
 
-                setTimeout(() => {
-                    container.appendChild(document.createElement('br')); // Add a line break
-                    revealLineByLine(lineIndex + 1); // Move to the next line
-                }, 1000); // Wait before showing the next line (1 second)
-            }
-        }, 150); // Adjust time between letters (150ms for typewriter effect)
-    } else {
-        cursor.style.display = 'none'; // Hide cursor after all lines are revealed
+    setTimeout(() => {
+        container.removeChild(div);
+    }, 2000); // Ensure the element is removed after animation
+}
+
+function showRandomChar() {
+    for (let i = 0; i < 11; i++) {
+        const position = getRandomPosition();
+        const char = getRandomChar();
+        setTimeout(() => showElement('character', char, position), Math.random() * 1000); // Staggered random appearance
     }
 }
 
-// Start revealing the first line
-revealLineByLine(0);
+function showPhraseHorizontally() {
+    const phrase = getRandomPhrase();
+    const words = phrase.split(" ");
+    const startPosition = getRandomPosition();
+
+    words.forEach((word, index) => {
+        const position = {
+            top: startPosition.top,
+            left: `calc(${startPosition.left} + ${index * 5}em)`
+        };
+
+        setTimeout(() => showElement('word', word, position), index * 1000); // Stagger the appearance of each word
+    });
+}
+
+function showWordWithProbability() {
+    const probability = Math.random();
+    if (probability <= 0.15) { // 15% chance to show a phrase
+        showPhraseHorizontally();
+    }
+}
+
+setInterval(showWordWithProbability, 2000); // Check probability and possibly show a phrase every 2 seconds
+
+setInterval(showRandomChar, 2000); // Refresh characters every 2 seconds
