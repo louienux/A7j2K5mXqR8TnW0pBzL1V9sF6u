@@ -69,7 +69,7 @@ function showPhraseHorizontally() {
 
 function showWordWithProbability() {
     const probability = Math.random();
-    if (probability <= 0.15) { // 15% chance to show a phrase
+    if (probability <= 0.45) { // 15% chance to show a phrase
         showPhraseHorizontally();
     }
 }
