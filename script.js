@@ -1,4 +1,4 @@
-const phrases = ["pawi", ";)", "how are you", "i'm here", "not unreachable", "but here", "dear name", "am i fine?", "is this okay?", "you can reach out", "it's okay", "be safe", "always", "beautiful like the moon", "i will be back", "you can thank", "the stars", "all you want but", "i'll always be the lucky one"];
+const phrases = [";)", "how are you", "i'm here", "not unreachable", "but here", "dear name", "am i fine?", "is this okay?", "you can reach out", "it's okay", "be safe", "always", "beautiful like the moon", "i will be back", "you can thank", "the stars", "all you want but", "i'll always be the lucky one"];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 let container = document.getElementById('container');
