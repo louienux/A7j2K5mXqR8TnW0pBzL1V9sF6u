@@ -1,11 +1,15 @@
-const phrases = [";)", "how are you", "i'm here", "not unreachable", "but here", "dear name", "am i fine?", "is this okay?", "you can reach out", "it's okay", "be safe", "always", "beautiful like the moon", "i will be back", "you can thank", "the stars", "all you want but", "i'll always be the lucky one"];
+const phrases = [
+    "I don't think that I even realize",
+    "the joy I make you feel when you're inside my universe",
+    "I held you like you're the one who's precious",
+    "I hate to break it to you, but it's not the other way around",
+    "You should thank your stars all you want",
+    "because you'll always be the lucky one"
+];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
+const middlePhraseElement = document.getElementById('middle-phrase');
 let container = document.getElementById('container');
-
-function getRandomPhrase() {
-    return phrases[Math.floor(Math.random() * phrases.length)];
-}
+let phraseIndex = 0;
 
 function getRandomChar() {
     return chars.charAt(Math.floor(Math.random() * chars.length));
@@ -14,8 +18,15 @@ function getRandomChar() {
 function getRandomPosition() {
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
-    const randomTop = Math.floor(Math.random() * windowHeight) + 'px';
-    const randomLeft = Math.floor(Math.random() * windowWidth) + 'px';
+    const middlePhraseBounds = middlePhraseElement.getBoundingClientRect();
+    let randomTop, randomLeft;
+    do {
+        randomTop = Math.random() * windowHeight + 'px';
+        randomLeft = Math.random() * windowWidth + 'px';
+    } while (
+        randomTop >= middlePhraseBounds.top && randomTop <= middlePhraseBounds.bottom &&
+        randomLeft >= middlePhraseBounds.left && randomLeft <= middlePhraseBounds.right
+    );
     return { top: randomTop, left: randomLeft };
 }
 
@@ -33,12 +44,10 @@ function showElement(type, content, position) {
     div.innerHTML = content;
     div.style.top = position.top;
     div.style.left = position.left;
-
     requestAnimationFrame(() => {
-        div.style.transform = 'scale(2)'; // Grow to 200%
+        div.style.transform = 'scale(3)'; // Grow to 200%
         div.style.opacity = '0';
     });
-
     setTimeout(() => {
         container.removeChild(div);
     }, 2000); // Ensure the element is removed after animation
@@ -52,28 +61,13 @@ function showRandomChar() {
     }
 }
 
-function showPhraseHorizontally() {
-    const phrase = getRandomPhrase();
-    const words = phrase.split(" ");
-    const startPosition = getRandomPosition();
-
-    words.forEach((word, index) => {
-        const position = {
-            top: startPosition.top,
-            left: `calc(${startPosition.left} + ${index * 5}em)`
-        };
-
-        setTimeout(() => showElement('word', word, position), index * 1000); // Stagger the appearance of each word
-    });
+function showPhrase() {
+    const phrase = phrases[phraseIndex];
+    phraseIndex = (phraseIndex + 1) % phrases.length; // Loop through the phrases in order
+    const position = getRandomPosition();
+    setTimeout(() => showElement('word', phrase, position), Math.random() * 1000); // Staggered random appearance
 }
 
-function showWordWithProbability() {
-    const probability = Math.random();
-    if (probability <= 0.45) { // 15% chance to show a phrase
-        showPhraseHorizontally();
-    }
-}
-
-setInterval(showWordWithProbability, 2000); // Check probability and possibly show a phrase every 2 seconds
-
+setInterval(showPhrase, 2000); // Show a phrase every 2 seconds
 setInterval(showRandomChar, 2000); // Refresh characters every 2 seconds
+

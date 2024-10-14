@@ -7,15 +7,35 @@ body {
     background-color: black;
 }
 
+#middle-phrase {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    font-size: 2em;
+    color: white;
+    z-index: 10;
+}
+
+#sub-phrase {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1em;
+    color: white;
+    z-index: 10;
+}
+
 .word, .character {
     font-size: 2em;
-    transition: transform 2s ease-in-out, opacity 2s ease-in-out;
+    transition: transform 5s ease-in-out, opacity 5s ease-in-out;
     display: inline-block;
     opacity: 1;
     position: absolute;
-    color: darkgrey; /* Dark grey color for words */
+    color: darkgrey;
 }
 
 .character {
-    color: white; /* White color for characters */
+    color: white;
 }
