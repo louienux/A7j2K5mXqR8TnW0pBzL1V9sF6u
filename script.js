@@ -45,12 +45,12 @@ function showElement(type, content, position) {
     div.style.top = position.top;
     div.style.left = position.left;
     requestAnimationFrame(() => {
-        div.style.transform = 'scale(3)'; // Grow to 200%
+        div.style.transform = 'scale(3)';
         div.style.opacity = '0';
     });
     setTimeout(() => {
         container.removeChild(div);
-    }, 2000); // Ensure the element is removed after animation
+    }, 5000); // Match this to your CSS transition duration
 }
 
 function showRandomChar() {
