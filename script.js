@@ -3,8 +3,8 @@ const phrases = [
     "the joy I make you feel when you're inside my universe",
     "I held you like you're the one who's precious",
     "I hate to break it to you, but it's not the other way around",
-    "You should thank your stars all you want",
-    "because you'll always be the lucky one"
+    "You should thank your stars because",
+    "you'll always be the lucky one"
 ];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const middlePhraseElement = document.getElementById('middle-phrase');
