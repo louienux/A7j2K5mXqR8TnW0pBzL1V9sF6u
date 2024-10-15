@@ -1,5 +1,6 @@
 const phrases = [
-    "save", "your", "heart", "for", "someone", "who", "cares", "because", "i don't"
+    "save", "your", "heart", "for", "someone", "who", "cares", "because", "i don't", "save", "your", "love", "to someone", "who deserves", "save",
+    "your", "time", "for", "someone", "who is", "worth your world"
 ];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const middlePhraseElement = document.getElementById('middle-phrase');
