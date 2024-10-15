@@ -1,10 +1,5 @@
 const phrases = [
-    "I don't think that I even realize",
-    "the joy I make you feel when you're inside my universe",
-    "I held you like you're the one who's precious",
-    "I hate to break it to you, but it's not the other way around",
-    "You should thank your stars because",
-    "you'll always be the lucky one"
+    "save", "your", "heart", "for", "someone", "who", "cares", "because", "i don't"
 ];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const middlePhraseElement = document.getElementById('middle-phrase');
