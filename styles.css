@@ -39,3 +39,17 @@ body {
 .character {
     color: white;
 }
+
+#pi-symbol {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 24px; /* Adjust size as needed */
+  z-index: 1000;  /* Ensure it's on top */
+}
+
+#pi-symbol a {
+  text-decoration: none;
+  color: black; /* Change color as needed */
+}
+
