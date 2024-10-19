@@ -7,9 +7,26 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <script type="text/javascript">
+  // Disable right-click context menu
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  // Disable viewing source code via keyboard shortcuts
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && (event.key === 'u' || event.key === 's' || event.key === 'i' || event.key === 'j')) {
+      event.preventDefault();
+    }
+    // Disable F12 key (DevTools)
+    if (event.key === 'F12') {
+      event.preventDefault();
+    }
+  });
+</script>
     <div id="middle-phrase">stop stopping.</div>
     <div id="sub-phrase">(for anyone)</div>
     <div id="container"></div>
     <script src="script.js"></script>
 </body>
+
+
 </html>
