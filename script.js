@@ -1,5 +1,5 @@
 const phrases = [
-    "save", "your", "heart", "for", "someone", "who", "cares", "because", "i don't", "save", "your", "love", "for someone", "who deserves", "save",
+    "save", "your", "heart", "for", "someone", "who", "cares", "because", "save", "your", "love", "for someone", "who deserves", "save",
     "your", "time", "for", "someone", "who is", "worth your world"
 ];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
