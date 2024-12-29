@@ -1,6 +1,5 @@
 const phrases = [
-    "save", "your", "heart", "for", "someone", "who", "cares", "because", "save", "your", "love", "for someone", "who deserves", "save",
-    "your", "time", "for", "someone", "who is", "worth your world"
+    "ang cute cute mo para kang si pikachu"
 ];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const middlePhraseElement = document.getElementById('middle-phrase');
