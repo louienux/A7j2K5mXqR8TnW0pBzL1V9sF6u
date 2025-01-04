@@ -1,5 +1,5 @@
 const phrases = [
-    "ang cute cute mo para kang si pikachu"
+    ";)"
 ];
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const middlePhraseElement = document.getElementById('middle-phrase');
