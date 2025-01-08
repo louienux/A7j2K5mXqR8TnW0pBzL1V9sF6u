@@ -47,6 +47,7 @@ body {
   font-size: 24px; /* Adjust size as needed */
   z-index: 1000;  /* Ensure it's on top */
   padding: 5px;  /* Optional, for some spacing */
+  color: white;
 }
 
 #pi-symbol a {
