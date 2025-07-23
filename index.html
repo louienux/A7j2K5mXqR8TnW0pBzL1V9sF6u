@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>focus</title>
+  <title>focus on the prize</title>
   <style>
     body {
       margin: 0;
@@ -23,6 +23,7 @@
       z-index: 2;
       position: relative;
       text-align: center;
+      font-size: 30px; /* Larger font size for <3 */
     }
 
     a.lyrics-link {
@@ -59,11 +60,11 @@
     .raindrop {
       position: fixed;
       top: -80px;
-      width: 1px;
-      height: 80px;
-      background: rgba(255, 255, 255, 0.2);
+      font-size: 30px; /* Adjusted size for heart emoji */
       animation: fall 1s linear infinite;
       z-index: 1;
+      text-shadow: 0 0 6px rgba(155, 89, 182, 0.8); /* Violet glow */
+      color: #9b59b6; /* Lilac color */
     }
 
     @keyframes fall {
@@ -79,11 +80,7 @@
   </div>
 
   <script>
-    const lines = [
-      "But still sometimes",
-      "There will be days in which I'll lose against life",
-      "Even if I get lost again, I know my way back"
-    ];
+    const lines = ["lilac"];  // Only the <3 text
 
     const linkContainer = document.getElementById('lyricLink');
     let delay = 0;
@@ -102,18 +99,19 @@
       delay += 0.5;
     });
 
-    // Create rain across the whole screen after animation
+    // Create violet/lilac heart-shaped rain across the screen
     setTimeout(() => {
       const dropCount = 150;
       for (let i = 0; i < dropCount; i++) {
-        const drop = document.createElement('div');
-        drop.classList.add('raindrop');
-        drop.style.left = `${Math.random() * 100}vw`;
-        drop.style.animationDuration = `${0.5 + Math.random()}s`;
-        drop.style.opacity = Math.random();
-        document.body.appendChild(drop);
+        const heart = document.createElement('div');
+        heart.classList.add('raindrop');
+        heart.textContent = "💜";  // Heart emoji
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.animationDuration = `${1 + Math.random()}s`;
+        heart.style.opacity = Math.random();
+        document.body.appendChild(heart);
       }
-    }, delay * 1000 + 800);
+    }, delay * 1000 + 800);  // Delay for the effect to start after the text animation
   </script>
 </body>
 </html>
