@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>focus on the prize</title>
+  <title>i stan u</title>
   <style>
     body {
       margin: 0;
@@ -17,54 +17,52 @@
       position: relative;
     }
 
-    #lyrics {
+    /* Video embedded */
+    #video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Random message (i stan u, hana hehe) */
+    .random-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.2); /* Start very small */
       color: white;
-      white-space: pre-wrap;
-      z-index: 2;
-      position: relative;
-      text-align: center;
-      font-size: 30px; /* Larger font size for <3 */
-    }
-
-    a.lyrics-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      cursor: pointer;
-    }
-
-    .letter {
-      display: inline-block;
+      font-size: 24px;
+      z-index: 2; /* Make sure the text is in front of the video */
       opacity: 0;
-      animation: glow 1.4s forwards;
+      visibility: hidden; /* Start hidden */
+      transition: transform 3s ease, opacity 3s ease; /* Smooth transition */
     }
 
-    @keyframes glow {
-      0% {
-        opacity: 0;
-        color: #555;
-        text-shadow: none;
-      }
-      40% {
-        opacity: 1;
-        color: white;
-        text-shadow: 0 0 4px white, 0 0 6px white;
-      }
-      100% {
-        opacity: 1;
-        color: white;
-        text-shadow: none;
-      }
+    /* Centered message that stays after 03:18 */
+    .center-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0s 0.25s; /* Only opacity */
     }
 
+    /* Raindrop (heart) emoji styles */
     .raindrop {
-      position: fixed;
-      top: -80px;
-      font-size: 30px; /* Adjusted size for heart emoji */
-      animation: fall 1s linear infinite;
-      z-index: 1;
-      text-shadow: 0 0 6px rgba(155, 89, 182, 0.8); /* Violet glow */
+      position: absolute;
+      font-size: 30px; /* Adjust the size of the heart */
       color: #9b59b6; /* Lilac color */
+      z-index: 1;
+      opacity: 0.8;
+      animation: fall 1.5s linear infinite;
+      text-shadow: 0 0 6px rgba(155, 89, 182, 0.8); /* Violet glow */
     }
 
     @keyframes fall {
@@ -72,46 +70,155 @@
         transform: translateY(100vh);
       }
     }
+
   </style>
 </head>
 <body>
-  <div id="lyrics">
-    <a href="https://blog.o6nt.com/" target="_blank" class="lyrics-link" id="lyricLink"></a>
-  </div>
+  <!-- Embed YouTube video, but will be controlled using the YouTube Player API -->
+  <div id="player"></div>
+
+  <!-- Random text and center message -->
+  <div id="randomText" class="random-text">i stan u, hana hehe</div>
+  <div id="centerMessage" class="center-message">i stan u, hana hehe</div>
 
   <script>
-    const lines = ["lilac"];  // Only the <3 text
+    let player;
+    let videoPlayed = false;
+    let lastTimeShown = 0; // Track when the message was last shown
+    let heartsStarted = false; // Flag to check if hearts have started raining
 
-    const linkContainer = document.getElementById('lyricLink');
-    let delay = 0;
+    // Load the YouTube Player API script asynchronously
+    function loadPlayerAPI() {
+      const script = document.createElement('script');
+      script.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(script);
+    }
 
-    lines.forEach(line => {
-      const lineDiv = document.createElement('div');
-      for (let char of line) {
-        const span = document.createElement('span');
-        span.textContent = char;
-        span.classList.add('letter');
-        span.style.animationDelay = `${delay}s`;
-        delay += 0.12;
-        lineDiv.appendChild(span);
+    // Create the YouTube player and handle events
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: 'O-1FpjPP6_c', // Video ID (can be changed)
+        playerVars: {
+          autoplay: 0,
+          mute: 0,
+          controls: 1,
+          loop: 1,
+          playlist: 'O-1FpjPP6_c'
+        },
+        events: {
+          onStateChange: onPlayerStateChange,
+          onReady: onPlayerReady
+        }
+      });
+    }
+
+    // Trigger when the player is ready
+    function onPlayerReady(event) {
+      event.target.setVolume(100); // Set volume to 100%
+    }
+
+    // Trigger when the player state changes
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        videoPlayed = true;
+        document.getElementById('playButton').style.display = 'none'; // Hide the play button
       }
-      linkContainer.appendChild(lineDiv);
-      delay += 0.5;
-    });
+    }
 
-    // Create violet/lilac heart-shaped rain across the screen
-    setTimeout(() => {
-      const dropCount = 150;
-      for (let i = 0; i < dropCount; i++) {
-        const heart = document.createElement('div');
-        heart.classList.add('raindrop');
-        heart.textContent = "💜";  // Heart emoji
-        heart.style.left = `${Math.random() * 100}vw`;
-        heart.style.animationDuration = `${1 + Math.random()}s`;
-        heart.style.opacity = Math.random();
-        document.body.appendChild(heart);
+    // Function to start the video
+    function playVideo() {
+      player.playVideo();
+    }
+
+    // Function to show and animate the random message
+    function showRandomMessage() {
+      const randomText = document.getElementById('randomText');
+      
+      // Fade in, grow the text smoothly
+      randomText.style.visibility = 'visible';
+      randomText.style.opacity = 1;
+      randomText.style.transform = 'translate(-50%, -50%) scale(1.5)'; // Grow larger
+
+      // Start fading out the message 3 seconds before the end of the time range
+      setTimeout(() => {
+        randomText.style.opacity = 0; // Start fade-out smoothly
+      }, 17000); // Start fade-out at 17 seconds (3 seconds before the end of the range)
+
+      // After fade-out, hide the text
+      setTimeout(() => {
+        randomText.style.visibility = 'hidden';
+      }, 20000); // Hide text after fade-out (20 seconds total)
+    }
+
+    // Function to create falling lilac heart emojis
+    function startHeartsRain() {
+      if (!heartsStarted) {
+        heartsStarted = true; // Prevent multiple heart rains
+
+        setInterval(() => {
+          const heart = document.createElement('div');
+          heart.classList.add('raindrop');
+          heart.textContent = "💜"; // Heart emoji
+          heart.style.left = `${Math.random() * 100}vw`; // Random horizontal position (full screen width)
+          heart.style.top = `${Math.random() * 10}vh`; // Random starting position from top (adjust for falling)
+          document.body.appendChild(heart);
+
+          // Remove hearts after they fall off the screen
+          setTimeout(() => {
+            heart.remove();
+          }, 1500);
+        }, 100); // Emit hearts at regular intervals
       }
-    }, delay * 1000 + 800);  // Delay for the effect to start after the text animation
+    }
+
+    // Set interval to check the video time
+    setInterval(() => {
+      const currentTime = player.getCurrentTime();
+
+      // From 1:02 - 1:20, fade in, grow, then fade out after 1:20
+      if (currentTime >= 62 && currentTime <= 80) {
+        if (currentTime - lastTimeShown >= 1) {
+          showRandomMessage();
+          lastTimeShown = currentTime;
+        }
+      }
+
+      // From 2:09 - 2:12, fade in, grow, then fade out after 2:12
+      else if (currentTime >= 128 && currentTime <= 132) {
+        if (currentTime - lastTimeShown >= 1) {
+          showRandomMessage();
+          lastTimeShown = currentTime;
+        }
+      }
+
+      // From 3:02 - 3:18, fade in, grow, then fade out after 3:18
+      else if (currentTime >= 182 && currentTime <= 198) {
+        if (currentTime - lastTimeShown >= 1) {
+          showRandomMessage();
+          lastTimeShown = currentTime;
+        }
+      }
+
+      // After 2:50, start the lilac heart emoji rain
+      else if (currentTime >= 170) {
+        // Start heart emoji rain if it hasn't already started
+        startHeartsRain();
+      }
+
+      // After 3:18, start the lilac heart emoji rain
+      else if (currentTime >= 198) {
+        document.getElementById('centerMessage').style.opacity = 1;  // Keep it visible
+        document.getElementById('centerMessage').style.top = '50%';
+        document.getElementById('centerMessage').style.left = '50%';
+        document.getElementById('centerMessage').style.transform = 'translate(-50%, -50%)';
+        
+        // Start heart emoji rain if it hasn't already started
+        startHeartsRain();
+      }
+    }, 1000); // Run every second to check the time
+
+    // Load the YouTube Player API script
+    loadPlayerAPI();
   </script>
 </body>
 </html>
