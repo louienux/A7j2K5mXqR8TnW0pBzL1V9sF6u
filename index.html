@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>focus</title>
+  <title>Focus</title>
   <style>
     html, body {
       margin: 0;
@@ -16,7 +16,6 @@
       position: relative;
     }
 
-    /* Responsive radar container */
     #radar {
       position: absolute;
       top: 50%;
@@ -30,7 +29,6 @@
       z-index: 0;
     }
 
-    /* Sweep with fading trail */
     #sweep {
       position: absolute;
       top: 50%;
@@ -59,7 +57,6 @@
       }
     }
 
-    /* Blips */
     .blip {
       position: absolute;
       width: 1.5vmin;
@@ -72,7 +69,6 @@
       z-index: 2;
     }
 
-    /* Foreground content */
     #content {
       position: relative;
       z-index: 3;
@@ -106,16 +102,14 @@
   </style>
 </head>
 <body>
-  <!-- Radar Layers -->
   <div id="radar"></div>
   <div id="sweep"></div>
 
-  <!-- Foreground Content -->
   <div id="content">
     <iframe allow="autoplay *; encrypted-media *;" height="150"
       style="width:100%;max-width:660px;overflow:hidden;background:transparent;"
       sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
-      src="https://embed.music.apple.com/us/song/kings-dead/1440907112"></iframe>
+      src="https://embed.music.apple.com/ph/song/opps/1440907097"></iframe>
 
     <div id="message">if you see this, i'm probably sleeping</div>
     <div id="zzzz"></div>
@@ -133,16 +127,16 @@
       window.location.href = "https://blog.o6nt.com/";
     });
 
-    // Generate blips
     const radar = document.getElementById('radar');
+    const sweep = document.getElementById('sweep');
     const blips = [];
-    const radarRect = radar.getBoundingClientRect();
-    const centerX = radarRect.left + radarRect.width / 2;
-    const centerY = radarRect.top + radarRect.height / 2;
+    const radarSize = radar.offsetWidth;
+    const centerX = radarSize / 2;
+    const centerY = radarSize / 2;
 
     for (let i = 0; i < 20; i++) {
       const angle = Math.random() * 360;
-      const radius = Math.random() * (radarRect.width / 2 - 10);
+      const radius = Math.random() * (radarSize / 2 - 10);
       const rad = angle * (Math.PI / 180);
       const x = centerX + radius * Math.cos(rad);
       const y = centerY + radius * Math.sin(rad);
@@ -152,21 +146,41 @@
       blip.style.left = `${x}px`;
       blip.style.top = `${y}px`;
       blip.dataset.angle = angle;
-      document.body.appendChild(blip);
+      blip.dataset.lastHit = -999;
+      radar.appendChild(blip);
       blips.push(blip);
     }
 
-    // Sweep detection
-    let currentAngle = 0;
+    function getSweepAngle() {
+      const style = getComputedStyle(sweep);
+      const transform = style.transform;
+      if (!transform || transform === 'none') return 0;
+
+      const values = transform.match(/matrix\(([^)]+)\)/);
+      if (!values) return 0;
+
+      const parts = values[1].split(',').map(parseFloat);
+      const [a, b] = parts;
+      const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+      return (angle + 360) % 360;
+    }
+
+    let tick = 0;
     setInterval(() => {
-      currentAngle = (currentAngle + 1) % 360;
+      const currentAngle = getSweepAngle();
+      tick++;
+
       blips.forEach(blip => {
         const blipAngle = parseFloat(blip.dataset.angle);
         const diff = Math.abs(blipAngle - currentAngle);
         if (diff < 5 || diff > 355) {
           blip.style.opacity = 1;
+          blip.dataset.lastHit = tick;
         } else {
-          blip.style.opacity = 0;
+          const lastHit = parseInt(blip.dataset.lastHit);
+          if (tick - lastHit > 50) { // ~1 second at 20ms interval
+            blip.style.opacity = 0;
+          }
         }
       });
     }, 20);
