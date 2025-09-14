@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sleeping</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sleeping Radar</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       background-color: #000;
@@ -16,27 +16,27 @@
       position: relative;
     }
 
-    /* Radar Background */
+    /* Responsive radar container */
     #radar {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 1000px;
-      height: 1000px;
+      width: 90vmin;
+      height: 90vmin;
       transform: translate(-50%, -50%);
       background: radial-gradient(circle, rgba(255,0,0,0.3) 2px, transparent 2px);
-      background-size: 50px 50px;
+      background-size: 5vmin 5vmin;
       border-radius: 50%;
       z-index: 0;
     }
 
-    /* Radar Sweep with fading trail */
+    /* Sweep with fading trail */
     #sweep {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 1000px;
-      height: 1000px;
+      width: 90vmin;
+      height: 90vmin;
       transform: translate(-50%, -50%);
       border-radius: 50%;
       background: conic-gradient(
@@ -59,45 +59,62 @@
       }
     }
 
-    /* Content Layer */
+    /* Blips */
+    .blip {
+      position: absolute;
+      width: 1.5vmin;
+      height: 1.5vmin;
+      background-color: red;
+      border-radius: 50%;
+      box-shadow: 0 0 1vmin rgba(255,0,0,0.8);
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+      z-index: 2;
+    }
+
+    /* Foreground content */
     #content {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       text-align: center;
-    }
-
-    #message {
-      font-size: 2rem;
-      margin: 20px 0;
-    }
-
-    #zzzz {
-      font-size: 4rem;
-      font-weight: bold;
-      letter-spacing: 5px;
-      white-space: nowrap;
+      padding: 1rem;
     }
 
     iframe {
       border: none;
-      margin-bottom: 20px;
+      margin-bottom: 1rem;
+      max-width: 90vw;
+    }
+
+    #message {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    #zzzz {
+      font-size: 2.5rem;
+      font-weight: bold;
+      letter-spacing: 5px;
+      white-space: nowrap;
+      word-break: break-word;
     }
   </style>
 </head>
 <body>
-  <!-- Radar Background -->
+  <!-- Radar Layers -->
   <div id="radar"></div>
   <div id="sweep"></div>
 
   <!-- Foreground Content -->
   <div id="content">
-    <iframe allow="autoplay *; encrypted-media *;" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" 
-      sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" 
+    <iframe allow="autoplay *; encrypted-media *;" height="150"
+      style="width:100%;max-width:660px;overflow:hidden;background:transparent;"
+      sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
       src="https://embed.music.apple.com/us/song/kings-dead/1440907112"></iframe>
 
     <div id="message">if you see this, i'm probably sleeping</div>
@@ -107,19 +124,52 @@
   <script>
     const zContainer = document.getElementById('zzzz');
     let zCount = 0;
-
-    function addZ() {
+    setInterval(() => {
       zContainer.textContent += 'z';
       zCount++;
-    }
+    }, 100);
 
-    // Add one Z every 100ms
-    setInterval(addZ, 100);
-
-    // Click to redirect
-    document.body.addEventListener('click', function() {
+    document.body.addEventListener('click', () => {
       window.location.href = "https://blog.o6nt.com/";
     });
+
+    // Generate blips
+    const radar = document.getElementById('radar');
+    const blips = [];
+    const radarRect = radar.getBoundingClientRect();
+    const centerX = radarRect.left + radarRect.width / 2;
+    const centerY = radarRect.top + radarRect.height / 2;
+
+    for (let i = 0; i < 20; i++) {
+      const angle = Math.random() * 360;
+      const radius = Math.random() * (radarRect.width / 2 - 10);
+      const rad = angle * (Math.PI / 180);
+      const x = centerX + radius * Math.cos(rad);
+      const y = centerY + radius * Math.sin(rad);
+
+      const blip = document.createElement('div');
+      blip.className = 'blip';
+      blip.style.left = `${x}px`;
+      blip.style.top = `${y}px`;
+      blip.dataset.angle = angle;
+      document.body.appendChild(blip);
+      blips.push(blip);
+    }
+
+    // Sweep detection
+    let currentAngle = 0;
+    setInterval(() => {
+      currentAngle = (currentAngle + 1) % 360;
+      blips.forEach(blip => {
+        const blipAngle = parseFloat(blip.dataset.angle);
+        const diff = Math.abs(blipAngle - currentAngle);
+        if (diff < 5 || diff > 355) {
+          blip.style.opacity = 1;
+        } else {
+          blip.style.opacity = 0;
+        }
+      });
+    }, 20);
   </script>
 </body>
 </html>
