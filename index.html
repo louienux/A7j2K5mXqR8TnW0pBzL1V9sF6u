@@ -3,132 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>focus</title>
+  <title>Sleeping</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
 
-    body {
-      background-color: #000;
+    /* Radar Background */
+    #radar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1000px;
+      height: 1000px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255,0,0,0.3) 2px, transparent 2px);
+      background-size: 50px 50px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    /* Radar Sweep with fading trail */
+    #sweep {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1000px;
+      height: 1000px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        rgba(255,0,0,0.4) 0deg,
+        rgba(255,0,0,0.2) 30deg,
+        rgba(255,0,0,0.1) 60deg,
+        transparent 120deg
+      );
+      animation: rotateSweep 4s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes rotateSweep {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    /* Content Layer */
+    #content {
+      position: relative;
+      z-index: 2;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      font-family: 'Arial', sans-serif;
-      color: #FFFFFF;
-      overflow: hidden;
-    }
-
-    #container {
       text-align: center;
-      cursor: pointer;
     }
 
-    #word {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    #message {
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    #zzzz {
       font-size: 4rem;
       font-weight: bold;
       letter-spacing: 5px;
+      white-space: nowrap;
     }
 
-    #word span {
-      display: inline-block;
-      text-transform: uppercase;
-    }
-
-    .blink {
-      animation: blinkEffect 0.5s ease-in-out 2;
-    }
-
-    @keyframes blinkEffect {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
+    iframe {
+      border: none;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div id="container">
-    <div id="word">
-      <span id="letter1">?</span>
-      <span id="letter2">?</span>
-      <span id="letter3">?</span>
-      <span id="letter4">?</span>
-      <span id="letter5">?</span>
-    </div>
+  <!-- Radar Background -->
+  <div id="radar"></div>
+  <div id="sweep"></div>
+
+  <!-- Foreground Content -->
+  <div id="content">
+    <iframe allow="autoplay *; encrypted-media *;" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" 
+      sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" 
+      src="https://embed.music.apple.com/us/song/kings-dead/1440907112"></iframe>
+
+    <div id="message">if you see this, i'm probably sleeping</div>
+    <div id="zzzz"></div>
   </div>
 
   <script>
-    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-    const letterElements = [
-      document.getElementById('letter1'),
-      document.getElementById('letter2'),
-      document.getElementById('letter3'),
-      document.getElementById('letter4'),
-      document.getElementById('letter5'),
-    ];
+    const zContainer = document.getElementById('zzzz');
+    let zCount = 0;
 
-    let currentIndex = 0; // Track which letter to update
-    let changeInterval; // For the setInterval to change letters
-
-    // Function to get a random letter from the array
-    function randomLetter() {
-      return letters[Math.floor(Math.random() * letters.length)];
+    function addZ() {
+      zContainer.textContent += 'z';
+      zCount++;
     }
 
-    // Function to change a letter
-    function changeLetter() {
-      letterElements[currentIndex].textContent = randomLetter();
-    }
+    // Add one Z every 100ms
+    setInterval(addZ, 100);
 
-    // Function to handle letter cycling with delay
-    function cycleLetters() {
-      // Change letter every 200ms until 5 seconds pass
-      changeInterval = setInterval(changeLetter, 50);
-
-      // Stop changing the letter after 5 seconds
-      setTimeout(() => {
-        clearInterval(changeInterval); // Stop the random letter change
-        currentIndex++;
-
-        // If we have cycled through all letters, trigger the blink
-        if (currentIndex < letterElements.length) {
-          setTimeout(cycleLetters, 500); // Start the next letter after a small pause
-        } else {
-          setTimeout(blink, 500); // Start blink effect after all letters are done
-        }
-      }, 5000); // Run the random letter change for 5 seconds
-    }
-
-    // Function for the blinking effect
-    function blink() {
-      document.getElementById('word').classList.add('blink'); // Add blink effect
-      setTimeout(() => {
-        document.getElementById('word').classList.remove('blink'); // Remove blink
-        currentIndex = 0; // Reset index to 0 for the next cycle
-        setTimeout(cycleLetters, 500); // Start the cycle again after a small pause
-      }, 500); // Duration of blink
-    }
-
-    // Start the process once the page loads
-    window.onload = function() {
-      cycleLetters();
-    };
-
-    // Add click event for redirect
-    document.getElementById('container').addEventListener('click', function() {
-      window.location.href = "https://blog.o6nt.com/"; 
+    // Click to redirect
+    document.body.addEventListener('click', function() {
+      window.location.href = "https://blog.o6nt.com/";
     });
   </script>
 </body>
