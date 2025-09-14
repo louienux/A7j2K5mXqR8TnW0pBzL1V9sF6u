@@ -27,6 +27,7 @@
       background-size: 5vmin 5vmin;
       border-radius: 50%;
       z-index: 0;
+      overflow: hidden;
     }
 
     #sweep {
@@ -146,7 +147,7 @@
       blip.style.left = `${x}px`;
       blip.style.top = `${y}px`;
       blip.dataset.angle = angle;
-      blip.dataset.lastHit = -999;
+      blip.dataset.visible = "false";
       radar.appendChild(blip);
       blips.push(blip);
     }
@@ -165,22 +166,20 @@
       return (angle + 360) % 360;
     }
 
-    let tick = 0;
     setInterval(() => {
       const currentAngle = getSweepAngle();
-      tick++;
 
       blips.forEach(blip => {
         const blipAngle = parseFloat(blip.dataset.angle);
         const diff = Math.abs(blipAngle - currentAngle);
-        if (diff < 5 || diff > 355) {
+        const isVisible = blip.dataset.visible === "true";
+
+        if (!isVisible && (diff < 5 || diff > 355)) {
           blip.style.opacity = 1;
-          blip.dataset.lastHit = tick;
-        } else {
-          const lastHit = parseInt(blip.dataset.lastHit);
-          if (tick - lastHit > 50) { // ~1 second at 20ms interval
-            blip.style.opacity = 0;
-          }
+          blip.dataset.visible = "true";
+        } else if (isVisible && (diff < 5 || diff > 355)) {
+          blip.style.opacity = 0;
+          blip.dataset.visible = "false";
         }
       });
     }, 20);
