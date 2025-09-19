@@ -1,259 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>focus</title>
+  <meta charset="utf-8">
+  <title>maum</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      background-color: #000;
-      color: #fff;
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    #radar {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 90vmin;
-      height: 90vmin;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(255,0,0,0.3) 2px, transparent 2px);
-      background-size: 5vmin 5vmin;
-      border-radius: 50%;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    #sweep {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 90vmin;
-      height: 90vmin;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: conic-gradient(
-        from -90deg,
-        transparent 0deg,
-        rgba(255,0,0,0.1) 30deg,
-        rgba(255,0,0,0.2) 60deg,
-        rgba(255,0,0,0.4) 90deg
-      );
-      animation: rotateSweep 4s linear infinite;
-      z-index: 1;
-    }
-
-    @keyframes rotateSweep {
-      from {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-      to {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
-    }
-
-    .trail {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 90vmin;
-  height: 90vmin;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: conic-gradient(
-    from var(--angle),
-    rgba(255,0,0,0.4) 0deg,
-    rgba(255,0,0,0.3) 20deg,
-    rgba(255,0,0,0.2) 40deg,
-    rgba(255,0,0,0.1) 60deg,
-    transparent 80deg
-  );
-  opacity: 0;
-  z-index: 0;
-  animation: fadeTrail 0.8s ease-out forwards;
-}
-
-    @keyframes fadeTrail {
-      to {
-        opacity: 0;
-      }
-    }
-
-    .blip {
-      position: absolute;
-      width: 1.5vmin;
-      height: 1.5vmin;
-      background-color: red;
-      border-radius: 50%;
-      box-shadow: 0 0 1vmin rgba(255,0,0,0.8);
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-      z-index: 2;
-    }
-
-    #content {
-      position: relative;
-      z-index: 3;
+      background: #222222;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    video {
+      max-width: 90%;
+      max-height: 80%;
+      object-fit: contain;
+    }
+    .caption {
+      margin-top: 20px;
+      font-size: 1.2rem;
       text-align: center;
-      padding: 1rem;
-    }
-
-    iframe {
-      border: none;
-      margin-bottom: 1rem;
-      max-width: 90vw;
-    }
-
-    #message {
-      font-size: 1.5rem;
-      margin: 1rem 0;
-    }
-
-    #zzzz {
-      font-size: 2.5rem;
-      font-weight: bold;
-      letter-spacing: 5px;
-      white-space: nowrap;
-      word-break: break-word;
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
-  <div id="radar"></div>
-  <div id="sweep"></div>
-
-  <div id="content">
-    <iframe allow="autoplay *; encrypted-media *;" height="150"
-      style="width:100%;max-width:660px;overflow:hidden;background:transparent;"
-      sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
-      src="https://embed.music.apple.com/ph/song/opps/1440907097"></iframe>
-
-    <div id="message">if you see this, i'm probably sleeping</div>
+  <video src="1.mp4" autoplay loop muted playsinline></video>
+  <div class="caption">
+    38 seconds. is all you needed, right?
   </div>
-
-  <script>
-    const zContainer = document.getElementById('zzzz');
-    let zCount = 0;
-    setInterval(() => {
-      zContainer.textContent += 'z';
-      zCount++;
-    }, 100);
-
-    document.body.addEventListener('click', () => {
-      window.location.href = "https://blog.o6nt.com/";
-    });
-
-    const radar = document.getElementById('radar');
-    const sweep = document.getElementById('sweep');
-    const blips = [];
-    const radarSize = radar.offsetWidth;
-    const centerX = radarSize / 2;
-    const centerY = radarSize / 2;
-
-    for (let i = 0; i < 20; i++) {
-      const angle = Math.random() * 360;
-      const radius = Math.random() * (radarSize / 2 - 10);
-      const rad = angle * (Math.PI / 180);
-      const x = centerX + radius * Math.cos(rad);
-      const y = centerY + radius * Math.sin(rad);
-
-      const blip = document.createElement('div');
-      blip.className = 'blip';
-      blip.style.left = `${x}px`;
-      blip.style.top = `${y}px`;
-      blip.dataset.angle = angle;
-      blip.dataset.visible = "false";
-      radar.appendChild(blip);
-      blips.push(blip);
-    }
-
-    function getSweepAngle() {
-      const style = getComputedStyle(sweep);
-      const transform = style.transform;
-      if (!transform || transform === 'none') return 0;
-
-      const values = transform.match(/matrix\(([^)]+)\)/);
-      if (!values) return 0;
-
-      const parts = values[1].split(',').map(parseFloat);
-      const [a, b] = parts;
-      const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-      return (angle + 360) % 360;
-    }
-
-    setInterval(() => {
-      const currentAngle = getSweepAngle();
-
-      // Create phosphor trail
-      const trail = document.createElement('div');
-      trail.className = 'trail';
-      trail.style.setProperty('--angle', `${currentAngle}deg`);
-      radar.appendChild(trail);
-      setTimeout(() => trail.remove(), 800);
-
-      // Blip detection
-      blips.forEach(blip => {
-        const blipAngle = parseFloat(blip.dataset.angle);
-        const diff = Math.abs(blipAngle - currentAngle);
-        const isVisible = blip.dataset.visible === "true";
-
-        if (!isVisible && (diff < 5 || diff > 355)) {
-          blip.style.opacity = 1;
-          blip.dataset.visible = "true";
-        } else if (isVisible && (diff < 5 || diff > 355)) {
-          blip.style.opacity = 0;
-          blip.dataset.visible = "false";
-        }
-      });
-    }, 20);
-
-const lyrics = [
- "Fuck y'all want from me?",
-"Y'all don't want money, y'all don't want from me",
-"Y'all wanna die in the chase of things",
-"We all gon' die and embrace the thing",
-"Trapped inside a burning church",
-"Made it out alive, God know my worth",
-"Raw face, Scarface",
-"Y'all face more defeat, I know it hurts",
-"20 of 'em, 20 on call",
-"Got 20 in my hand, got 20 on judge",
-"Gave 20 to my dog, got 20 on girls",
-"That'll fuck you to",
-"(Zoom zoom zoom)",
-"That'll fuck you to fuck you over",
-"Take your safe, take your keys, take your Rover",
-"Take the heart you thought you had",
-"Speed off, rollin' up life in a taxi cab",
-"Opps on the radar (you're dead to me)",
-"How you wanna play ball? (you're dead to me)",
-"Takes all (you're dead to me)",
-"(You're dead to me, you're dead to me)",
-"You know what zone I'm in (you're dead to me)",
-"Don't care who you with (you're dead to me)",
-"Watch me do my shit (you're dead to me)",
-"(You're dead to me)"
-];
-
-let lyricIndex = 0;
-setInterval(() => {
-  document.title = lyrics[lyricIndex];
-  lyricIndex = (lyricIndex + 1) % lyrics.length;
-}, 500);
-
-  </script>
-
-
 </body>
 </html>
