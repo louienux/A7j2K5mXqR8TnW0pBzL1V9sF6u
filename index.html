@@ -91,16 +91,16 @@
       }, 100);
 
       setTimeout(() => {
-        const staticScreen = document.createElement("div");
-        staticScreen.className = "static";
-        document.body.appendChild(staticScreen);
+  const staticScreen = document.createElement("div");
+  staticScreen.className = "static";
+  document.body.appendChild(staticScreen);
 
-        setTimeout(() => {
-          staticScreen.remove();
-          document.querySelectorAll(".not").forEach(el => el.remove());
-          document.getElementById("mainText").innerHTML = "everything's great.";
-        }, 2000);
-      }, 7000);
+  setTimeout(() => {
+    staticScreen.remove();
+    document.querySelectorAll(".not").forEach(el => el.remove());
+    document.getElementById("mainText").innerHTML = "everything's great.";
+  }, 2000);
+}, 5000); // match the end of "not" spam
     }, 11000);
   </script>
 </body>
