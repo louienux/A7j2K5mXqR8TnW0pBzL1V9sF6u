@@ -1,45 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>maum</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>focus(?)</title>
   <style>
     body {
       margin: 0;
-      background: #222222;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background-color: black;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: monospace;
+      overflow: hidden;
     }
-    video {
-      max-width: 90%;
-      max-height: 80%;
-      object-fit: contain;
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      white-space: nowrap;
     }
-    .caption {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      text-align: center;
-      opacity: 0.85;
+    .strike {
+      text-decoration: line-through;
     }
-.caption2 {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      text-align: center;
-      opacity: 0.85;
+    .not {
+      position: absolute;
+      font-size: 1.5em;
+      color: red;
+      animation: fadeout 2s forwards;
+    }
+    @keyframes fadeout {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .static {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover no-repeat;
+      z-index: 9999;
+    }
+    .cursor {
+      display: inline-block;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    #counter {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <video src="1.mp4" autoplay loop muted playsinline></video>
-  <div class="caption">
-    38 seconds. 
+  <div id="mainText" class="center">
+    everything's <span id="great">grea<span id="t">t</span><span id="cursor" class="cursor">_</span></span>
   </div>
-  <div class="caption2">
-it's all you needed, right?
+  <span id="counter"></span>
+
+  <script>
+    let triggered = false;
+    let count = 0;
+
+    // Secret counter
+    setInterval(() => {
+      count++;
+      document.getElementById("counter").textContent = count;
+    }, 1000);
+
+    setTimeout(() => {
+      if (triggered) return;
+      triggered = true;
+
+      // Strike out "great"
+      document.getElementById("great").classList.add("strike");
+
+      // Spawn "not" one by one
+      let i = 0;
+      const interval = setInterval(() => {
+        const not = document.createElement("div");
+        not.className = "not";
+        not.textContent = "not";
+        not.style.top = Math.random() * window.innerHeight + "px";
+        not.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(not);
+        i++;
+        if (i >= 50) clearInterval(interval);
+      }, 100); // ~5 seconds
+
+      // After 7 seconds, show static
+      setTimeout(() => {
+        const staticScreen = document.createElement("div");
+        staticScreen.className = "static";
+        document.body.appendChild(staticScreen);
+
+        // After 2 seconds, remove static and reset text
+        setTimeout(() => {
+          staticScreen.remove();
+          document.querySelectorAll(".not").forEach(el => el.remove());
+
+          // Replace with final version: everything's great.
+          document.getElementById("mainText").innerHTML = "everything's great.";
+        }, 2000);
+      }, 7000);
+    }, 11000);
+  </script>
 </body>
 </html>
