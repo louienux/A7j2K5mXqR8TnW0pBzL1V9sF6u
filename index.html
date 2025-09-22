@@ -11,23 +11,26 @@
       color: white;
       font-family: monospace;
       overflow: hidden;
+      touch-action: manipulation;
     }
     .center {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3em;
+      font-size: 6vw;
       white-space: nowrap;
+      text-align: center;
     }
     .strike {
       text-decoration: line-through;
     }
     .not {
       position: absolute;
-      font-size: 1.5em;
+      font-size: 4vw;
       color: red;
       animation: fadeout 2s forwards;
+      pointer-events: none;
     }
     @keyframes fadeout {
       0% { opacity: 1; }
@@ -64,7 +67,6 @@
     let triggered = false;
     let count = 0;
 
-    // Secret counter
     setInterval(() => {
       count++;
       document.getElementById("counter").textContent = count;
@@ -74,10 +76,8 @@
       if (triggered) return;
       triggered = true;
 
-      // Strike out "great"
       document.getElementById("great").classList.add("strike");
 
-      // Spawn "not" one by one
       let i = 0;
       const interval = setInterval(() => {
         const not = document.createElement("div");
@@ -88,20 +88,16 @@
         document.body.appendChild(not);
         i++;
         if (i >= 50) clearInterval(interval);
-      }, 100); // ~5 seconds
+      }, 100);
 
-      // After 7 seconds, show static
       setTimeout(() => {
         const staticScreen = document.createElement("div");
         staticScreen.className = "static";
         document.body.appendChild(staticScreen);
 
-        // After 2 seconds, remove static and reset text
         setTimeout(() => {
           staticScreen.remove();
           document.querySelectorAll(".not").forEach(el => el.remove());
-
-          // Replace with final version: everything's great.
           document.getElementById("mainText").innerHTML = "everything's great.";
         }, 2000);
       }, 7000);
