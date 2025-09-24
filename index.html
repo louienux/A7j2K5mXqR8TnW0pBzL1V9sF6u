@@ -1,108 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>focus (?)</title>
+  <title>versace</title>
   <style>
     body {
       margin: 0;
-      background-color: black;
-      color: white;
-      font-family: monospace;
-      overflow: hidden;
-      touch-action: manipulation;
-    }
-    .center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2vw;
-      white-space: nowrap;
-      text-align: center;
-    }
-    .strike {
-      text-decoration: line-through;
-    }
-    .not {
-      position: absolute;
-      font-size: 2vw;
-      color: red;
-      animation: fadeout 1s forwards;
-      pointer-events: none;
-    }
-    @keyframes fadeout {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    .static {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
       height: 100vh;
-      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover no-repeat;
-      z-index: 9999;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', monospace;
+      overflow: hidden;
     }
-    .cursor {
-      display: inline-block;
-      animation: blink 1s step-end infinite;
+
+    .word {
+      font-size: 6rem;
+      color: white;
+      text-transform: lowercase;
+      transition: filter 0.1s ease, transform 0.1s ease;
     }
-    @keyframes blink {
-      50% { opacity: 0; }
+
+    .shake {
+      animation: shakeX 0.15s ease-in-out;
     }
-    #counter {
-      display: none;
+
+    .blur {
+      filter: blur(16px);
+    }
+
+    @keyframes shakeX {
+      0%   { transform: translateX(0); }
+      10%  { transform: translateX(-20px); }
+      20%  { transform: translateX(20px); }
+      30%  { transform: translateX(-18px); }
+      40%  { transform: translateX(18px); }
+      50%  { transform: translateX(-15px); }
+      60%  { transform: translateX(15px); }
+      70%  { transform: translateX(-10px); }
+      80%  { transform: translateX(10px); }
+      90%  { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
-  <div id="mainText" class="center">
-    everything's <span id="great">grea<span id="t">t</span><span id="cursor" class="cursor">|</span></span>
-  </div>
-  <span id="counter"></span>
+  <div class="word" id="word">f o c u s</div>
 
   <script>
-    let triggered = false;
-    let count = 0;
+    const wordEl = document.getElementById('word');
+    let state = 'f o c u s';
 
     setInterval(() => {
-      count++;
-      document.getElementById("counter").textContent = count;
-    }, 1000);
-
-    setTimeout(() => {
-      if (triggered) return;
-      triggered = true;
-
-      document.getElementById("great").classList.add("strike");
-
-      let i = 0;
-      const interval = setInterval(() => {
-        const not = document.createElement("div");
-        not.className = "not";
-        not.textContent = "not";
-        not.style.top = Math.random() * window.innerHeight + "px";
-        not.style.left = Math.random() * window.innerWidth + "px";
-        document.body.appendChild(not);
-        i++;
-        if (i >= 50) clearInterval(interval);
-      }, 100);
+      wordEl.classList.add('shake', 'blur');
 
       setTimeout(() => {
-  const staticScreen = document.createElement("div");
-  staticScreen.className = "static";
-  document.body.appendChild(staticScreen);
-
-  setTimeout(() => {
-    staticScreen.remove();
-    document.querySelectorAll(".not").forEach(el => el.remove());
-    document.getElementById("mainText").innerHTML = "everything's great.";
-  }, 2000);
-}, 5000); // match the end of "not" spam
-    }, 11000);
+        state = state === 'f o c u s' ? 's i l e n c e' : 'f o c u s';
+        wordEl.textContent = state;
+        wordEl.classList.remove('shake', 'blur');
+        document.title = state; // sync the tab title
+      }, 150); // matches shake duration
+    }, 1000); // every 1 second
   </script>
 </body>
 </html>
