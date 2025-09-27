@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>less talk, less mistakes</title>
+  <title>focus</title>
   <style>
     body {
       margin: 0;
@@ -38,59 +38,96 @@
       z-index: 1;
     }
 
+    #dot {
+      width: 2px;
+      height: 2px;
+      background: white;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: fadeDot 0.5s ease-out forwards;
+    }
+
     #bottom {
       height: 1px;
-      width: 0;
+      width: 100%;
       bottom: 0;
       left: 0;
-      animation: drawBottom 3s ease-out forwards;
-    }
-
-    #right {
-      width: 1px;
-      height: 0;
-      right: 0;
-      bottom: 0;
-      animation: drawRight 2s ease-out forwards;
-      animation-delay: 3s;
-    }
-
-    #top {
-      height: 1px;
-      width: 0;
-      top: 0;
-      right: 0;
-      animation: drawTop 2s ease-out forwards;
-      animation-delay: 5s;
+      transform: scaleX(0);
+      transform-origin: center;
+      animation: drawBottomEven 2s ease-out forwards;
+      animation-delay: 0.5s;
     }
 
     #left {
       width: 1px;
       height: 0;
-      top: 0;
+      bottom: 0;
       left: 0;
-      animation: drawLeft 2s ease-out forwards;
-      animation-delay: 7s;
+      animation: drawLeftUp 2s ease-out forwards;
+      animation-delay: 2.5s;
     }
 
-    @keyframes drawBottom {
-      from { width: 0; }
-      to { width: 100%; }
+    #right {
+      width: 1px;
+      height: 0;
+      bottom: 0;
+      right: 0;
+      animation: drawRightUp 2s ease-out forwards;
+      animation-delay: 2.5s;
     }
 
-    @keyframes drawRight {
+    #top-left, #top-right {
+      height: 1px;
+      width: 50%;
+      top: 0;
+      background: white;
+      transform: scaleX(0);
+    }
+
+    #top-left {
+      left: 0;
+      transform-origin: left;
+      animation: drawTopLeft 2s ease-out forwards;
+      animation-delay: 4.5s;
+    }
+
+    #top-right {
+      right: 0;
+      transform-origin: right;
+      animation: drawTopRight 2s ease-out forwards;
+      animation-delay: 4.5s;
+    }
+
+    @keyframes fadeDot {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes drawBottomEven {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes drawLeftUp {
       from { height: 0; }
       to { height: 100%; }
     }
 
-    @keyframes drawTop {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes drawLeft {
+    @keyframes drawRightUp {
       from { height: 0; }
       to { height: 100%; }
+    }
+
+    @keyframes drawTopLeft {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes drawTopRight {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
     }
 
     .glow {
@@ -139,25 +176,25 @@
 </head>
 <body>
   <div class="container" id="container">
-    <span id="sentence">not here to be seen, here to exist.</span>
+    <span id="sentence">off the grid.</span>
+    <div class="line" id="dot"></div>
     <div class="line" id="bottom"></div>
-    <div class="line" id="right"></div>
-    <div class="line" id="top"></div>
     <div class="line" id="left"></div>
+    <div class="line" id="right"></div>
+    <div class="line" id="top-left"></div>
+    <div class="line" id="top-right"></div>
   </div>
 
   <script>
     const sentence = document.getElementById('sentence');
     const container = document.getElementById('container');
 
-    // Trigger glow and echo after rectangle completes
     setTimeout(() => {
       sentence.classList.add('glow');
       triggerEcho();
       startPlusLoop();
-    }, 9000);
+    }, 6500);
 
-    // Echo wave effect
     function triggerEcho() {
       for (let i = 0; i < 3; i++) {
         setTimeout(() => {
@@ -174,7 +211,6 @@
       }
     }
 
-    // Looping "+" particles outside the box
     const emitPlusParticle = () => {
       const rect = container.getBoundingClientRect();
       let x, y, tries = 0;
