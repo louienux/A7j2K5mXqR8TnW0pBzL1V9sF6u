@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>+</title>
+  <title>turn your tv off</title>
   <style>
     body {
       margin: 0;
@@ -22,112 +22,16 @@
       position: relative;
       font-size: 2.4rem;
       letter-spacing: 0.05em;
-      padding: 20px 40px;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     #sentence {
-      display: inline-block;
-      padding: 10px 20px;
       z-index: 2;
       position: relative;
-    }
-
-    .line {
-      position: absolute;
-      background: white;
-      z-index: 1;
-    }
-
-    #dot {
-      width: 2px;
-      height: 2px;
-      background: white;
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: fadeDot 0.5s ease-out forwards;
-    }
-
-    #bottom {
-      height: 1px;
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      transform: scaleX(0);
-      transform-origin: center;
-      animation: drawBottomEven 2s ease-out forwards;
-      animation-delay: 0.5s;
-    }
-
-    #left {
-      width: 1px;
-      height: 0;
-      bottom: 0;
-      left: 0;
-      animation: drawLeftUp 2s ease-out forwards;
-      animation-delay: 2.5s;
-    }
-
-    #right {
-      width: 1px;
-      height: 0;
-      bottom: 0;
-      right: 0;
-      animation: drawRightUp 2s ease-out forwards;
-      animation-delay: 2.5s;
-    }
-
-    #top-left, #top-right {
-      height: 1px;
-      width: 50%;
-      top: 0;
-      background: white;
-      transform: scaleX(0);
-    }
-
-    #top-left {
-      left: 0;
-      transform-origin: left;
-      animation: drawTopLeft 2s ease-out forwards;
-      animation-delay: 4.5s;
-    }
-
-    #top-right {
-      right: 0;
-      transform-origin: right;
-      animation: drawTopRight 2s ease-out forwards;
-      animation-delay: 4.5s;
-    }
-
-    @keyframes fadeDot {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-
-    @keyframes drawBottomEven {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-
-    @keyframes drawLeftUp {
-      from { height: 0; }
-      to { height: 100%; }
-    }
-
-    @keyframes drawRightUp {
-      from { height: 0; }
-      to { height: 100%; }
-    }
-
-    @keyframes drawTopLeft {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-
-    @keyframes drawTopRight {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
     }
 
     .glow {
@@ -142,7 +46,8 @@
 
     .echo {
       position: absolute;
-      border: 1px solid white;
+      border: 2px solid white;
+      border-radius: 50%;
       box-sizing: border-box;
       opacity: 0;
       animation: echoWave 2s ease-out forwards;
@@ -150,11 +55,11 @@
 
     @keyframes echoWave {
       0% {
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
       }
       100% {
-        transform: scale(1.5);
+        transform: translate(-50%, -50%) scale(10);
         opacity: 0;
       }
     }
@@ -176,13 +81,7 @@
 </head>
 <body>
   <div class="container" id="container">
-    <span id="sentence">+</span>
-    <div class="line" id="dot"></div>
-    <div class="line" id="bottom"></div>
-    <div class="line" id="left"></div>
-    <div class="line" id="right"></div>
-    <div class="line" id="top-left"></div>
-    <div class="line" id="top-right"></div>
+    <span id="sentence">👽</span>
   </div>
 
   <script>
@@ -191,24 +90,30 @@
 
     setTimeout(() => {
       sentence.classList.add('glow');
-      triggerEcho();
+      startEchoLoop();
       startPlusLoop();
-    }, 6500);
+    }, 1000);
 
-    function triggerEcho() {
-      for (let i = 0; i < 3; i++) {
-        setTimeout(() => {
-          const echo = document.createElement('div');
-          echo.className = 'echo';
-          const rect = container.getBoundingClientRect();
-          echo.style.left = `${rect.left}px`;
-          echo.style.top = `${rect.top}px`;
-          echo.style.width = `${rect.width}px`;
-          echo.style.height = `${rect.height}px`;
-          document.body.appendChild(echo);
-          setTimeout(() => echo.remove(), 2000);
-        }, i * 400);
-      }
+    function emitEcho() {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const echo = document.createElement('div');
+      echo.className = 'echo';
+      echo.style.left = `${centerX}px`;
+      echo.style.top = `${centerY}px`;
+      echo.style.width = `100px`;
+      echo.style.height = `100px`;
+      echo.style.transform = 'translate(-50%, -50%)';
+      document.body.appendChild(echo);
+      setTimeout(() => echo.remove(), 2000);
+    }
+
+    function startEchoLoop() {
+      setInterval(() => {
+        emitEcho();
+      }, 400);
     }
 
     const emitPlusParticle = () => {
@@ -229,7 +134,7 @@
 
       const particle = document.createElement('div');
       particle.className = 'plus';
-      particle.textContent = '+';
+      particle.textContent = '🛸';
       particle.style.left = `${x}px`;
       particle.style.top = `${y}px`;
       document.body.appendChild(particle);
