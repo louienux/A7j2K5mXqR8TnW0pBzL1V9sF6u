@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>turn your tv off</title>
+  <title></title>
   <style>
     body {
       margin: 0;
@@ -81,73 +81,7 @@
 </head>
 <body>
   <div class="container" id="container">
-    <span id="sentence">👽</span>
+    <span id="sentence"></span>
   </div>
-
-  <script>
-    const sentence = document.getElementById('sentence');
-    const container = document.getElementById('container');
-
-    setTimeout(() => {
-      sentence.classList.add('glow');
-      startEchoLoop();
-      startPlusLoop();
-    }, 1000);
-
-    function emitEcho() {
-      const rect = container.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-
-      const echo = document.createElement('div');
-      echo.className = 'echo';
-      echo.style.left = `${centerX}px`;
-      echo.style.top = `${centerY}px`;
-      echo.style.width = `100px`;
-      echo.style.height = `100px`;
-      echo.style.transform = 'translate(-50%, -50%)';
-      document.body.appendChild(echo);
-      setTimeout(() => echo.remove(), 2000);
-    }
-
-    function startEchoLoop() {
-      setInterval(() => {
-        emitEcho();
-      }, 400);
-    }
-
-    const emitPlusParticle = () => {
-      const rect = container.getBoundingClientRect();
-      let x, y, tries = 0;
-
-      do {
-        x = Math.random() * window.innerWidth;
-        y = Math.random() * window.innerHeight;
-        tries++;
-      } while (
-        x > rect.left && x < rect.right &&
-        y > rect.top && y < rect.bottom &&
-        tries < 10
-      );
-
-      if (tries >= 10) return;
-
-      const particle = document.createElement('div');
-      particle.className = 'plus';
-      particle.textContent = '🛸';
-      particle.style.left = `${x}px`;
-      particle.style.top = `${y}px`;
-      document.body.appendChild(particle);
-      setTimeout(() => particle.remove(), 2000);
-    };
-
-    const startPlusLoop = () => {
-      setInterval(() => {
-        for (let i = 0; i < 5; i++) {
-          emitPlusParticle();
-        }
-      }, 300);
-    };
-  </script>
 </body>
 </html>
