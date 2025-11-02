@@ -1,128 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!-- if you believe yours is the only way, then you're the fool who lives to die -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>(do)</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #0f0f0f;
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
-
-    .container {
+      height: 100vh;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
     }
 
-    .quote {
-      font-size: 2em;
-      color: #fff;
-      text-align: center;
-      max-width: 600px;
-      white-space: pre-wrap;
-    }
-
-    .letter {
-      display: inline-block;
-      opacity: 0;
+    .glitch {
       position: relative;
-      animation: fadeIn 0.8s forwards;
+      font-size: 3em;
+      color: #fff;
+      text-transform: lowercase;
+      animation: shakeX 0.12s infinite steps(1), blurFlicker 1.2s infinite;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .glow {
-      animation: glowFlash 0.5s ease-out;
-    }
-
-    @keyframes glowFlash {
-      0% {
-        text-shadow:
-          0 0 2px #fff,
-          0 0 4px #fff,
-          0 0 8px #fff,
-          0 0 16px #fff;
-      }
-      100% {
-        text-shadow: none;
-      }
-    }
-
-    .spirit {
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
       position: absolute;
-      color: rgba(255, 255, 255, 0.3);
-      pointer-events: none;
-      animation: spiritRise 1.5s ease-out forwards;
+      left: 0;
+      top: 0;
+      width: 100%;
+      color: #fff;
+      overflow: hidden;
     }
 
-    @keyframes spiritRise {
-      0% {
-        opacity: 0.3;
-        transform: translateY(0) scale(1);
-      }
-      50% {
-        opacity: 0.2;
-        transform: translateY(-20px) scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-40px) scale(1.4);
-      }
+    .glitch::before {
+      animation: slice1 1s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      animation: slice2 1.3s infinite linear alternate-reverse;
+    }
+
+    @keyframes shakeX {
+      0%   { transform: translateX(0); }
+      20%  { transform: translateX(-4px); }
+      40%  { transform: translateX(3px); }
+      60%  { transform: translateX(-6px); }
+      80%  { transform: translateX(2px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes blurFlicker {
+      0%, 100% { filter: none; }
+      10% { filter: blur(1px); }
+      20% { filter: blur(2px); }
+      30% { filter: none; }
+      40% { filter: blur(1px); }
+      50% { filter: blur(3px); }
+      60% { filter: none; }
+      70% { filter: blur(2px); }
+      80% { filter: blur(1px); }
+      90% { filter: none; }
+    }
+
+    @keyframes slice1 {
+      0%   { clip-path: inset(10% 0 85% 0); transform: skew(-5deg); }
+      25%  { clip-path: inset(30% 0 50% 0); transform: skew(5deg); }
+      50%  { clip-path: inset(50% 0 30% 0); transform: skew(-3deg); }
+      75%  { clip-path: inset(70% 0 10% 0); transform: skew(2deg); }
+      100% { clip-path: inset(0 0 100% 0); transform: skew(0deg); }
+    }
+
+    @keyframes slice2 {
+      0%   { clip-path: inset(15% 0 80% 0); transform: skew(3deg); }
+      25%  { clip-path: inset(35% 0 45% 0); transform: skew(-4deg); }
+      50%  { clip-path: inset(55% 0 25% 0); transform: skew(6deg); }
+      75%  { clip-path: inset(75% 0 5% 0); transform: skew(-2deg); }
+      100% { clip-path: inset(0 0 100% 0); transform: skew(0deg); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="quote" id="quote"></div>
-  </div>
-
-  <script>
-    const quote = 'redesign rebuild reclaim';
-    const container = document.getElementById('quote');
-
-    // Step 1: Reveal letters one by one
-    quote.split('').forEach((char, i) => {
-      const span = document.createElement('span');
-      span.textContent = char;
-      span.classList.add('letter');
-      span.style.animationDelay = `${i * 80}ms`;
-      if (char === ' ') span.style.width = '0.5em';
-      container.appendChild(span);
-    });
-
-    // Step 2: After all letters are visible, trigger glow + spirit
-    const totalDelay = quote.length * 80 + 800;
-    setTimeout(() => {
-      const letters = document.querySelectorAll('.letter');
-      letters.forEach((letter, i) => {
-        // Add glow
-        setTimeout(() => {
-          letter.classList.add('glow');
-
-          // Create spirit
-          const spirit = document.createElement('span');
-          spirit.textContent = letter.textContent;
-          spirit.className = 'spirit';
-          spirit.style.left = letter.offsetLeft + 'px';
-          spirit.style.top = letter.offsetTop + 'px';
-          spirit.style.fontSize = window.getComputedStyle(letter).fontSize;
-          container.appendChild(spirit);
-
-          // Remove spirit after animation
-          setTimeout(() => spirit.remove(), 1500);
-        }, i * 30);
-      });
-    }, totalDelay);
-  </script>
+  <div class="glitch" data-text="redesign rebuild reclaim">redesign rebuild reclaim</div>
 </body>
 </html>
