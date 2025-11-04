@@ -1,89 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- if you believe yours is the only way, then you're the fool who lives to die -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>(do)</title>
+  <title>:)</title>
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Courier New', monospace;
-      overflow: hidden;
+      background-color: #f0f4f8;
+      font-family: Arial, sans-serif;
     }
 
-    .glitch {
-      position: relative;
-      font-size: 3em;
-      color: #fff;
-      text-transform: lowercase;
-      animation: shakeX 0.12s infinite steps(1), blurFlicker 1.2s infinite;
+    .message {
+      font-size: 2em;
+      text-align: center;
+      display: flex;
+      gap: 0.5em;
+      flex-wrap: wrap;
     }
 
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      color: #fff;
-      overflow: hidden;
+    .word {
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
     }
 
-    .glitch::before {
-      animation: slice1 1s infinite linear alternate-reverse;
-    }
-
-    .glitch::after {
-      animation: slice2 1.3s infinite linear alternate-reverse;
-    }
-
-    @keyframes shakeX {
-      0%   { transform: translateX(0); }
-      20%  { transform: translateX(-4px); }
-      40%  { transform: translateX(3px); }
-      60%  { transform: translateX(-6px); }
-      80%  { transform: translateX(2px); }
-      100% { transform: translateX(0); }
-    }
-
-    @keyframes blurFlicker {
-      0%, 100% { filter: none; }
-      10% { filter: blur(1px); }
-      20% { filter: blur(2px); }
-      30% { filter: none; }
-      40% { filter: blur(1px); }
-      50% { filter: blur(3px); }
-      60% { filter: none; }
-      70% { filter: blur(2px); }
-      80% { filter: blur(1px); }
-      90% { filter: none; }
-    }
-
-    @keyframes slice1 {
-      0%   { clip-path: inset(10% 0 85% 0); transform: skew(-5deg); }
-      25%  { clip-path: inset(30% 0 50% 0); transform: skew(5deg); }
-      50%  { clip-path: inset(50% 0 30% 0); transform: skew(-3deg); }
-      75%  { clip-path: inset(70% 0 10% 0); transform: skew(2deg); }
-      100% { clip-path: inset(0 0 100% 0); transform: skew(0deg); }
-    }
-
-    @keyframes slice2 {
-      0%   { clip-path: inset(15% 0 80% 0); transform: skew(3deg); }
-      25%  { clip-path: inset(35% 0 45% 0); transform: skew(-4deg); }
-      50%  { clip-path: inset(55% 0 25% 0); transform: skew(6deg); }
-      75%  { clip-path: inset(75% 0 5% 0); transform: skew(-2deg); }
-      100% { clip-path: inset(0 0 100% 0); transform: skew(0deg); }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="glitch" data-text="redesign rebuild reclaim">redesign rebuild reclaim</div>
+  <div class="message" id="message"></div>
+
+  <script>
+    const text = "hey, it's gonna be okay :)";
+    const words = text.split(" ");
+    const container = document.getElementById("message");
+
+    words.forEach((word, index) => {
+      const span = document.createElement("span");
+      span.textContent = word;
+      span.className = "word";
+      span.style.animationDelay = `${index * 0.6}s`;
+      container.appendChild(span);
+    });
+  </script>
 </body>
 </html>
