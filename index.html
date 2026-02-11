@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>busy</title>
+    <title>Out</title>
     <style>
         body {
             margin: 0;
@@ -15,30 +15,23 @@
             justify-content: center;
             font-family: 'Courier New', monospace;
             overflow: hidden;
+
+            /* The repeating 7 background - clean and static */
+            background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='20' y='35' fill='rgba(255,255,255,0.1)' font-family='sans-serif' font-size='20'%3E7%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
         }
 
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .binary-container {
-            position: relative;
-            z-index: 2;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
-            border: 1px solid #99f2ff;
-            box-shadow: 0 0 15px rgba(153, 242, 255, 0.3);
+        .binary-wrap {
             text-align: center;
-            max-width: 600px;
+            max-width: 500px;
+            padding: 20px;
+            background: #000; /* Keeps the binary clear of the background 7s */
+            border: 1px solid #333;
         }
 
         p {
-            color: #99f2ff;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 1.1rem;
+            line-height: 1.6;
             margin: 0;
             word-break: break-all;
             letter-spacing: 1px;
@@ -47,49 +40,9 @@
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
-
-    <div class="binary-container">
+    <div class="binary-wrap">
         <p>01101111 01110101 01110100 00100000 01100110 01101111 01110010 00100000 01110100 01101000 01100101 00100000 01111001 01100101 01100001 01110010 00101110</p>
     </div>
 
-    <script>
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const fontSize = 16;
-        const columns = Math.floor(canvas.width / fontSize);
-        const drops = [];
-
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.floor(Math.random() * (canvas.height / fontSize));
-        }
-
-        function draw() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "#99f2ff"; 
-            ctx.font = fontSize + "px monospace";
-
-            for (let i = 0; i < drops.length; i++) {
-                ctx.fillText("7", i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(draw, 50);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
 </body>
 </html>
