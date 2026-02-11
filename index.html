@@ -1,229 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>A totally normal Tic-Tac-Toe Game</title>
-  <style>
-    :root { --bg:#0b0c10; --grid:#1f2833; --fg:#c5c8c6; --accent:#66fcf1; --win:#22c55e; }
-    body {
-      background:var(--bg); color:var(--fg); font-family:monospace;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      min-height:100vh; margin:0;
-    }
-    h1 { color:var(--accent); margin:0 0 12px; }
-    .board { display:grid; grid-template-columns:repeat(3, 88px); gap:8px; margin-top:8px; }
-    .cell {
-      width:88px; height:88px; font-size:2rem;
-      display:grid; place-items:center;
-      background:#0f141a; border:1px solid var(--grid); border-radius:8px;
-      cursor:pointer; user-select:none; color:var(--fg);
-      transition: transform 0.15s ease;
-    }
-    .cell:active { transform: scale(0.9); }
-    .cell.pop { animation: popIn 0.3s ease; }
-    @keyframes popIn {
-      0% { transform: scale(0.3); opacity:0; }
-      100% { transform: scale(1); opacity:1; }
-    }
-    .cell:disabled { cursor:default; opacity:0.9; }
-    .winner {
-      outline:2px solid var(--win);
-      box-shadow:0 0 0 2px var(--win) inset;
-      background:#0f1a14; color:var(--win); font-weight:700;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    .msg { margin:12px 0; min-height:20px; font-size:14px; }
-    .overlay {
-      position:fixed; inset:0; background:black; color:#f43f5e;
-      display:flex; align-items:center; justify-content:center;
-      font-size:2rem; z-index:999; animation:glitch 480ms steps(2,end) 1;
-    }
-    @keyframes glitch { 0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;} }
-    .final {
-      position:fixed; inset:0; background:black; color:#c5c8c6;
-      display:flex; align-items:center; justify-content:center;
-      font-size:2rem; z-index:1000;
-    }
-    .gameover {
-      position:fixed; color:red; font-family:"Press Start 2P", monospace;
-      font-size:2rem; z-index:1001;
-    }
-    .btn {
-      padding:8px 12px; border:1px solid var(--grid); border-radius:6px;
-      background:#0f141a; color:var(--fg); cursor:pointer; font-size:13px;
-    }
-    .btn:hover { filter:brightness(1.1); }
-  </style>
+    <meta charset="UTF-8">
+    <title>Out - Binary</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .binary-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border: 1px solid #99f2ff;
+            box-shadow: 0 0 15px rgba(153, 242, 255, 0.3);
+            text-align: center;
+            max-width: 600px;
+        }
+
+        p {
+            color: #99f2ff;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+            word-break: break-all;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-  <h1>A totally normal Tic-Tac-Toe Game</h1>
-  <div id="board" class="board"></div>
-  <div id="msg" class="msg"></div>
-  <button class="btn" onclick="reset()">Reset</button>
 
-  <script>
-    const boardEl = document.getElementById('board');
-    const msgEl = document.getElementById('msg');
+    <canvas id="matrix"></canvas>
 
-    let cells = Array(9).fill(null);
-    let gameOver = false;
-    let highlight = null;
-    let lastMoveIndex = null;
-    let lossCount = 0;
+    <div class="binary-container">
+        <p>01101111 01110101 01110100 00100000 01100110 01101111 01110010 00100000 01110100 01101000 01100101 00100000 01111001 01100101 01100001 01110010 00101110</p>
+    </div>
 
-    const taunts = [
-      "The house always wins.",
-      "Haha you thought it would be different this time.",
-      "Are you serious?",
-      "LOL.",
-      "Still trying? Adorable.",
-      "This is getting sad now.",
-      "Give up already!"
-    ];
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
 
-    const wins = [
-      [0,1,2],[3,4,5],[6,7,8],
-      [0,3,6],[1,4,7],[2,5,8],
-      [0,4,8],[2,4,6]
-    ];
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-    function render() {
-      boardEl.innerHTML = '';
-      cells.forEach((val, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'cell';
-        if (val) {
-          btn.textContent = val;
-          if (i === lastMoveIndex) {
-            btn.classList.add('pop');
-            btn.addEventListener('animationend', () => btn.classList.remove('pop'), {once:true});
-          }
+        const fontSize = 16;
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * (canvas.height / fontSize));
         }
-        btn.disabled = !!val || gameOver;
-        if (highlight && highlight.includes(i)) btn.classList.add('winner');
-        btn.onclick = () => userMove(i);
-        boardEl.appendChild(btn);
-      });
-    }
 
-    function checkWin(mark, state = cells) {
-      for (const line of wins) {
-        if (line.every(idx => state[idx] === mark)) return line;
-      }
-      return null;
-    }
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    function winningLineForMove(idx, mark) {
-      if (cells[idx] !== null) return null;
-      const clone = cells.slice();
-      clone[idx] = mark;
-      return checkWin(mark, clone);
-    }
+            ctx.fillStyle = "#99f2ff"; 
+            ctx.font = fontSize + "px monospace";
 
-    function userMove(i) {
-      if (gameOver || cells[i]) return;
-      const winningLine = winningLineForMove(i, 'O');
-      if (winningLine) { triggerGlitchAndCpuWin(); return; }
-      cells[i] = 'O';
-      lastMoveIndex = i;
-      render();
-      cpuPlay();
-    }
+            for (let i = 0; i < drops.length; i++) {
+                ctx.fillText("7", i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
 
-    function cpuPlay() {
-      if (gameOver) return;
-      setTimeout(() => {
-        const empties = cells.map((v, idx) => v ? null : idx).filter(v => v !== null);
-        if (!empties.length) return;
-        const move = empties[Math.floor(Math.random() * empties.length)];
-        cells[move] = 'X';
-        lastMoveIndex = move;
-        render();
-        const w = checkWin('X');
-        if (w) { highlight = w; msgEl.textContent = 'CPU wins.'; gameOver = true; render(); }
-      }, 1000);
-    }
+        setInterval(draw, 50);
 
-    function forceCpuWin() {
-      const openForCpu = wins.filter(line =>
-        line.every(idx => cells[idx] === null || cells[idx] === 'X')
-      );
-      const chosen = openForCpu.length
-        ? openForCpu[Math.floor(Math.random() * openForCpu.length)]
-        : wins[Math.floor(Math.random() * wins.length)];
-      chosen.forEach(idx => cells[idx] = 'X');
-      highlight = chosen;
-    }
-
-    function triggerGlitchAndCpuWin() {
-      gameOver = true;
-      const overlay = document.createElement('div');
-      overlay.className = 'overlay';
-      document.body.appendChild(overlay);
-
-      setTimeout(() => {
-        overlay.remove();
-        forceCpuWin();
-        render();
-        msgEl.textContent = 'CPU wins.';
-
-        setTimeout(() => {
-          const final = document.createElement('div');
-          final.className = 'final';
-          const taunt = taunts[Math.min(lossCount, taunts.length-1)];
-          final.textContent = taunt;
-          document.body.appendChild(final);
-
-          setTimeout(() => {
-            final.remove();
-            startGameOverBounce();
-          }, 2000);
-        }, 2000);
-      }, 520);
-    }
-
-    function startGameOverBounce() {
-      const gameover = document.createElement('div');
-      gameover.className = 'gameover';
-      gameover.textContent = 'GAME OVER';
-      document.body.appendChild(gameover);
-
-      let x = 50, y = 50;
-      let dx = 2, dy = 2;
-      function animate() {
-        const w = window.innerWidth, h = window.innerHeight;
-        const rect = gameover.getBoundingClientRect();
-        if (x + rect.width >= w || x <= 0) dx *= -1;
-        if (y + rect.height >= h || y <= 0) dy *= -1;
-        x += dx; y += dy;
-        gameover.style.left = x + 'px';
-        gameover.style.top = y + 'px';
-        requestAnimationFrame(animate);
-      }
-      gameover.style.position = 'fixed';
-      gameover.style.left = x + 'px';
-      gameover.style.top = y + 'px';
-      animate();
-    }
-
-       function reset() {
-      if (gameOver) lossCount++;
-      cells = Array(9).fill(null);
-      gameOver = false;
-      highlight = null;
-      lastMoveIndex = null;
-      msgEl.textContent = '';
-      document.querySelectorAll('.overlay,.final,.gameover').forEach(el => el.remove());
-      render();
-    }
-
-    render();
-  </script>
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
