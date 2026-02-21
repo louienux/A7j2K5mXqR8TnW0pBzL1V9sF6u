@@ -9,86 +9,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            color: #404040;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 60px auto;
-            padding: 20px 40px;
-        }
-
-        /* Header Section */
-        .header-row {
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-        }
-
-        h1 {
-            font-size: 48px;
-            font-weight: 300; 
-            margin: 0;
-            color: #333;
-            letter-spacing: -0.5px;
-        }
-
-        .ray-id-top {
-            font-family: Monaco, "Courier New", Courier, monospace;
-            font-size: 13px;
-            color: #555;
-            margin-left: 15px;
-        }
-
-        .subheading {
-            font-size: 32px;
-            font-weight: 300;
-            color: #999;
-            margin: 5px 0 50px 0;
-            letter-spacing: -0.5px;
-        }
-
-        /* Body Section */
-        h2 {
-            font-size: 26px;
-            font-weight: 400;
-            margin: 0 0 15px 0;
-            color: #333;
-        }
-
-        p {
-            font-size: 15px;
-            line-height: 1.6;
-            margin: 0 0 15px 0;
-            color: #404040;
-        }
-
-        a {
-            color: #0051c3;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Feedback Section */
+        body { font-family: "Open Sans", sans-serif; color: #404040; margin: 0; padding: 0; background-color: #fff; -webkit-font-smoothing: antialiased; }
+        .container { max-width: 960px; margin: 60px auto; padding: 20px 40px; }
+        .header-row { display: flex; align-items: baseline; flex-wrap: wrap; }
+        h1 { font-size: 48px; font-weight: 300; margin: 0; color: #333; letter-spacing: -0.5px; }
+        .ray-id-top { font-family: Monaco, monospace; font-size: 13px; color: #555; margin-left: 15px; }
+        .subheading { font-size: 32px; font-weight: 300; color: #999; margin: 5px 0 50px 0; letter-spacing: -0.5px; }
+        h2 { font-size: 26px; font-weight: 400; margin: 0 0 15px 0; color: #333; }
+        p { font-size: 15px; line-height: 1.6; margin: 0 0 15px 0; color: #404040; }
+        a { color: #0051c3; text-decoration: none; }
+        
+        /* Fixed Feedback Section: Text on top, Buttons below */
         .feedback-container {
             text-align: center;
             margin-top: 60px;
             font-size: 14px;
             color: #404040;
-        }
-
-        .feedback-buttons {
-            display: inline-block;
-            margin-left: 15px;
+            display: flex;
+            flex-direction: column; /* Stacks text and buttons */
+            align-items: center;
+            gap: 12px; /* Space between text and buttons */
         }
 
         .feedback-btn {
@@ -101,38 +41,13 @@
             cursor: pointer;
             margin: 0 4px;
             font-family: inherit;
+            transition: background-color 0.2s;
         }
 
-        .feedback-btn:hover {
-            background-color: #f4f8fe;
-        }
-
-        /* Divider and Footer Section */
-        hr {
-            border: none;
-            border-top: 1px solid #eaeaea;
-            margin: 30px 0;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 13px;
-            color: #555;
-        }
-
-        .reveal-ip-btn {
-            color: #0051c3;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            font-size: 13px;
-            font-family: inherit;
-        }
-
-        .reveal-ip-btn:hover {
-            text-decoration: underline;
-        }
+        .feedback-btn:hover { background-color: #f4f8fe; }
+        hr { border: none; border-top: 1px solid #eaeaea; margin: 30px 0; }
+        .footer { text-align: center; font-size: 13px; color: #555; }
+        .reveal-ip-btn { color: #0051c3; cursor: pointer; background: none; border: none; padding: 0; font-size: 13px; font-family: inherit; }
     </style>
 </head>
 <body>
@@ -145,18 +60,14 @@
         <div class="subheading">Access denied</div>
 
         <h2>What happened?</h2>
-        <p>The owner of this website (www.o6nt.com) has banned your IP address (<span id="user-ip-body">Loading...</span>).</p>
+        <p>The owner of this website (www.o6nt.com) has banned your IP address (<span id="user-ip-body">Detecting...</span>).</p>
         <p>Please see <a href="https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1006/">https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1006/</a> for more details.</p>
 
         <div class="feedback-container">
-            Was this page helpful? 
+            <span>Was this page helpful?</span>
             <div class="feedback-buttons">
-               <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ" target="_blank">
-              <button class="feedback-btn">Yes</button>
-                </a>
-                <a href="https://youtu.be/rvrZJ5C_Nwg?list=RDrvrZJ5C_Nwg&t=142" target="_blank">
-              <button class="feedback-btn">No</button>
-                </a>
+               <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><button class="feedback-btn">Yes</button></a>
+               <a href="https://youtu.be/rvrZJ5C_Nwg?t=142" target="_blank"><button class="feedback-btn">No</button></a>
             </div>
         </div>
 
@@ -168,62 +79,40 @@
     </div>
 
     <script>
-        // Generate random Ray ID
-        function generateRayId() {
-            const chars = '0123456789abcdef';
-            let id = '';
-            for (let i = 0; i < 16; i++) {
-                id += chars[Math.floor(Math.random() * chars.length)];
-            }
-            return id;
-        }
-
-        // Get Cloudflare-formatted UTC Timestamp
-        function getUtcTimestamp() {
-            const now = new Date();
-            const year = now.getUTCFullYear();
-            const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(now.getUTCDate()).padStart(2, '0');
-            const hours = String(now.getUTCHours()).padStart(2, '0');
-            const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-            const seconds = String(now.getUTCSeconds()).padStart(2, '0');
-            
-            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} UTC`;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const rayId = generateRayId();
-            const timestamp = getUtcTimestamp();
-            let userIp = '99.85.104.104'; // Default fallback
-
-            // Populate Ray ID
-            document.getElementById('ray-id-top').textContent = rayId;
-            document.getElementById('ray-id-bottom').textContent = rayId;
-
-            // Populate Timestamp
-            document.getElementById('timestamp-top').textContent = timestamp;
-
-            // Fetch real IP address
-            fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => {
-                    userIp = data.ip;
-                    document.getElementById('user-ip-body').textContent = userIp;
-                })
-                .catch(error => {
-                    document.getElementById('user-ip-body').textContent = userIp; // Use fallback
-                });
-
-            // Handle "Click to reveal" for IP in footer
-            const revealBtn = document.getElementById('reveal-ip-btn');
-            const footerIpSpan = document.getElementById('user-ip-footer');
-
-            revealBtn.addEventListener('click', () => {
-                revealBtn.style.display = 'none';
-                footerIpSpan.textContent = userIp;
-                footerIpSpan.style.display = 'inline';
+        (function() {
+            // Anti-Source Deterrents
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('keydown', e => {
+                if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
+                    e.preventDefault();
+                    alert("Security Policy: Access Denied.");
+                }
             });
-        });
+
+            const _gen = () => Math.random().toString(16).slice(2, 18).toUpperCase();
+            const _r = _gen();
+            const _t = new Date().toISOString().replace('T', ' ').split('.')[0] + ' UTC';
+
+            window.onload = function() {
+                document.getElementById('ray-id-top').innerText = _r;
+                document.getElementById('ray-id-bottom').innerText = _r;
+                document.getElementById('timestamp-top').innerText = _t;
+
+                fetch('https://api.ipify.org?format=json')
+                    .then(res => res.json())
+                    .then(data => {
+                        const ip = data.ip;
+                        document.getElementById('user-ip-body').innerText = ip;
+                        document.getElementById('reveal-ip-btn').onclick = function() {
+                            this.style.display = 'none';
+                            const f = document.getElementById('user-ip-footer');
+                            f.innerText = ip;
+                            f.style.display = 'inline';
+                        };
+                    })
+                    .catch(() => { document.getElementById('user-ip-body').innerText = "1.1.1.1"; });
+            };
+        })();
     </script>
 </body>
 </html>
