@@ -2,47 +2,167 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Out</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access denied | www.o6nt.com </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #404040;
             margin: 0;
             padding: 0;
-            background-color: #000;
-            color: #fff;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-
-            /* The repeating 7 background - clean and static */
-            background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='20' y='35' fill='rgba(255,255,255,0.1)' font-family='sans-serif' font-size='20'%3E7%3C/text%3E%3C/svg%3E");
-            background-repeat: repeat;
+            background-color: #fff;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .binary-wrap {
-            text-align: center;
-            max-width: 500px;
-            padding: 20px;
-            background: #000; /* Keeps the binary clear of the background 7s */
-            border: 1px solid #333;
+        .container {
+            max-width: 960px;
+            margin: 50px auto;
+            padding: 20px 40px;
+        }
+
+        /* Header Section */
+        .header-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: 300; /* This creates the accurate thin text */
+            margin: 0;
+            color: #404040;
+            letter-spacing: -1px;
+        }
+
+        .ray-id-top {
+            font-family: Monaco, "Courier New", Courier, monospace;
+            font-size: 13px;
+            color: #666;
+            margin-left: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .subheading {
+            font-size: 32px;
+            font-weight: 300;
+            color: #999;
+            margin: 5px 0 50px 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Body Section */
+        h2 {
+            font-size: 26px;
+            font-weight: 400;
+            margin: 0 0 15px 0;
+            color: #404040;
         }
 
         p {
-            font-size: 1.1rem;
+            font-size: 15px;
             line-height: 1.6;
             margin: 0;
-            word-break: break-all;
-            letter-spacing: 1px;
+            color: #404040;
+        }
+
+        /* Divider and Footer Section */
+        hr {
+            border: none;
+            border-top: 1px solid #eaeaea;
+            margin: 50px 0 30px 0;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .footer a {
+            color: #0051c3;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer strong {
+            font-weight: 600;
+            color: #333;
         }
     </style>
 </head>
 <body>
 
-    <div class="binary-wrap">
-        <p>01101111 01110101 01110100 00100000 01100110 01101111 01110010 00100000 01110100 01101000 01100101 00100000 01111001 01100101 01100001 01110010 00101110</p>
+    <div class="container">
+        <div class="header-row">
+            <h1>Error 1006</h1>
+            <span class="ray-id-top">Ray ID: <span id="ray-id-top">...</span> &bull; <span id="timestamp-top">...</span></span>
+        </div>
+        <div class="subheading">Access denied</div>
+
+        <h2>What happened?</h2>
+        <p>The owner of this website (https://o6nt.com/) has banned your IP address (<span id="user-ip-body">Loading...</span>).</p>
+
+        <hr>
+
+        <div class="footer">
+            Cloudflare Ray ID: <strong id="ray-id-bottom">...</strong> &bull; Your IP: <span id="user-ip-footer">Loading...</span> &bull; Performance &amp; security by <a href="https://www.cloudflare.com">Cloudflare</a>
+        </div>
     </div>
 
+    <script>
+        function generateRayId() {
+            const chars = '0123456789abcdef';
+            let id = '';
+            for (let i = 0; i < 16; i++) {
+                id += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return id;
+        }
+
+        function getUtcTimestamp() {
+            const now = new Date();
+            const year = now.getUTCFullYear();
+            const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(now.getUTCDate()).padStart(2, '0');
+            const hours = String(now.getUTCHours()).padStart(2, '0');
+            const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+            
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} UTC`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rayId = generateRayId();
+            const timestamp = getUtcTimestamp();
+
+            // Populate Ray ID
+            document.getElementById('ray-id-top').textContent = rayId;
+            document.getElementById('ray-id-bottom').textContent = rayId;
+
+            // Populate Timestamp
+            document.getElementById('timestamp-top').textContent = timestamp;
+
+            // Fetch real IP address and populate both the paragraph and footer
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('user-ip-body').textContent = data.ip;
+                    document.getElementById('user-ip-footer').textContent = data.ip;
+                })
+                .catch(error => {
+                    // Fallback IP
+                    const fallbackIp = '5.102.12.157';
+                    document.getElementById('user-ip-body').textContent = fallbackIp;
+                    document.getElementById('user-ip-footer').textContent = fallbackIp;
+                });
+        });
+    </script>
 </body>
 </html>
