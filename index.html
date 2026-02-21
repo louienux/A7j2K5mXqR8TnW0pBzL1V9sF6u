@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access denied | www.o6nt.com </title>
+    <title>Access denied | www.o6nt.com</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
 
         .container {
             max-width: 960px;
-            margin: 50px auto;
+            margin: 60px auto;
             padding: 20px 40px;
         }
 
@@ -31,19 +31,18 @@
         }
 
         h1 {
-            font-size: 50px;
-            font-weight: 300; /* This creates the accurate thin text */
+            font-size: 48px;
+            font-weight: 300; 
             margin: 0;
-            color: #404040;
-            letter-spacing: -1px;
+            color: #333;
+            letter-spacing: -0.5px;
         }
 
         .ray-id-top {
             font-family: Monaco, "Courier New", Courier, monospace;
             font-size: 13px;
-            color: #666;
-            margin-left: 20px;
-            letter-spacing: 0.5px;
+            color: #555;
+            margin-left: 15px;
         }
 
         .subheading {
@@ -59,21 +58,59 @@
             font-size: 26px;
             font-weight: 400;
             margin: 0 0 15px 0;
-            color: #404040;
+            color: #333;
         }
 
         p {
             font-size: 15px;
             line-height: 1.6;
-            margin: 0;
+            margin: 0 0 15px 0;
             color: #404040;
+        }
+
+        a {
+            color: #0051c3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Feedback Section */
+        .feedback-container {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 14px;
+            color: #404040;
+        }
+
+        .feedback-buttons {
+            display: inline-block;
+            margin-left: 15px;
+        }
+
+        .feedback-btn {
+            background-color: transparent;
+            border: 1px solid #0051c3;
+            color: #0051c3;
+            padding: 6px 16px;
+            font-size: 14px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 0 4px;
+            font-family: inherit;
+        }
+
+        .feedback-btn:hover {
+            background-color: #f4f8fe;
         }
 
         /* Divider and Footer Section */
         hr {
             border: none;
             border-top: 1px solid #eaeaea;
-            margin: 50px 0 30px 0;
+            margin: 30px 0;
         }
 
         .footer {
@@ -82,18 +119,18 @@
             color: #555;
         }
 
-        .footer a {
+        .reveal-ip-btn {
             color: #0051c3;
-            text-decoration: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 13px;
+            font-family: inherit;
         }
 
-        .footer a:hover {
+        .reveal-ip-btn:hover {
             text-decoration: underline;
-        }
-
-        .footer strong {
-            font-weight: 600;
-            color: #333;
         }
     </style>
 </head>
@@ -107,16 +144,26 @@
         <div class="subheading">Access denied</div>
 
         <h2>What happened?</h2>
-        <p>The owner of this website (https://o6nt.com/) has banned your IP address (<span id="user-ip-body">Loading...</span>).</p>
+        <p>The owner of this website (www.o6nt.com) has banned your IP address (<span id="user-ip-body">Loading...</span>).</p>
+        <p>Please see <a href="https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1006/">https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1006/</a> for more details.</p>
+
+        <div class="feedback-container">
+            Was this page helpful? 
+            <div class="feedback-buttons">
+                <button class="feedback-btn">Yes</button>
+                <button class="feedback-btn">No</button>
+            </div>
+        </div>
 
         <hr>
 
         <div class="footer">
-            Cloudflare Ray ID: <strong id="ray-id-bottom">...</strong> &bull; Your IP: <span id="user-ip-footer">Loading...</span> &bull; Performance &amp; security by <a href="https://www.cloudflare.com">Cloudflare</a>
+            Cloudflare Ray ID: <span id="ray-id-bottom">...</span> &bull; Your IP: <button id="reveal-ip-btn" class="reveal-ip-btn">Click to reveal</button><span id="user-ip-footer" style="display:none;"></span> &bull; Performance &amp; security by <a href="https://www.cloudflare.com">Cloudflare</a>
         </div>
     </div>
 
     <script>
+        // Generate random Ray ID
         function generateRayId() {
             const chars = '0123456789abcdef';
             let id = '';
@@ -126,6 +173,7 @@
             return id;
         }
 
+        // Get Cloudflare-formatted UTC Timestamp
         function getUtcTimestamp() {
             const now = new Date();
             const year = now.getUTCFullYear();
@@ -141,6 +189,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const rayId = generateRayId();
             const timestamp = getUtcTimestamp();
+            let userIp = '99.85.104.104'; // Default fallback
 
             // Populate Ray ID
             document.getElementById('ray-id-top').textContent = rayId;
@@ -149,19 +198,26 @@
             // Populate Timestamp
             document.getElementById('timestamp-top').textContent = timestamp;
 
-            // Fetch real IP address and populate both the paragraph and footer
+            // Fetch real IP address
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('user-ip-body').textContent = data.ip;
-                    document.getElementById('user-ip-footer').textContent = data.ip;
+                    userIp = data.ip;
+                    document.getElementById('user-ip-body').textContent = userIp;
                 })
                 .catch(error => {
-                    // Fallback IP
-                    const fallbackIp = '5.102.12.157';
-                    document.getElementById('user-ip-body').textContent = fallbackIp;
-                    document.getElementById('user-ip-footer').textContent = fallbackIp;
+                    document.getElementById('user-ip-body').textContent = userIp; // Use fallback
                 });
+
+            // Handle "Click to reveal" for IP in footer
+            const revealBtn = document.getElementById('reveal-ip-btn');
+            const footerIpSpan = document.getElementById('user-ip-footer');
+
+            revealBtn.addEventListener('click', () => {
+                revealBtn.style.display = 'none';
+                footerIpSpan.textContent = userIp;
+                footerIpSpan.style.display = 'inline';
+            });
         });
     </script>
 </body>
