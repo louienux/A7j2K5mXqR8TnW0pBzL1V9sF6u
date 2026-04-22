@@ -3,106 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access denied | www.o6nt.com</title>
-    <link rel="icon" type="image/x-icon" href="https://www.cloudflare.com/favicon.ico">
+    <title>403 Forbidden</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: "Open Sans", sans-serif; color: #404040; margin: 0; padding: 0; background-color: #fff; -webkit-font-smoothing: antialiased; }
-        .container { max-width: 960px; margin: 60px auto; padding: 20px 40px; }
-        .header-row { display: flex; align-items: baseline; flex-wrap: wrap; }
-        h1 { font-size: 48px; font-weight: 300; margin: 0; color: #333; letter-spacing: -0.5px; }
-        .ray-id-top { font-family: Monaco, monospace; font-size: 13px; color: #555; margin-left: 15px; }
-        .subheading { font-size: 32px; font-weight: 300; color: #999; margin: 5px 0 50px 0; letter-spacing: -0.5px; }
-        h2 { font-size: 26px; font-weight: 400; margin: 0 0 15px 0; color: #333; }
-        p { font-size: 15px; line-height: 1.6; margin: 0 0 15px 0; color: #404040; }
-        a { color: #0051c3; text-decoration: none; }
+        :root {
+            --bg: #111111;
+            --text: #999999;
+            --highlight: #eeeeee;
+            --border: #333333;
+            --mono: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', monospace;
+        }
         
-        /* Fixed Feedback Section: Text on top, Buttons below */
-        .feedback-container {
-            text-align: center;
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            /* The Cloudflare Stack */
+            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 90%;
+            padding: 40px;
+        }
+
+        h1 { 
+            color: var(--highlight); 
+            font-size: 42px; 
+            font-weight: 300; /* Light weight like Cloudflare */
+            margin: 0 0 10px 0; 
+            letter-spacing: -1px;
+        }
+
+        p {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .data-grid {
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px 30px;
+            font-size: 14px;
+        }
+
+        .label { 
+            font-weight: 600; 
+            color: #555555; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            font-size: 11px;
+            align-self: center;
+        }
+
+        .value { 
+            font-family: var(--mono); /* Keeps the technical data clean */
+            color: var(--highlight);
+        }
+
+        .footer {
             margin-top: 60px;
-            font-size: 14px;
-            color: #404040;
-            display: flex;
-            flex-direction: column; /* Stacks text and buttons */
-            align-items: center;
-            gap: 12px; /* Space between text and buttons */
+            font-size: 12px;
+            color: #444444;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
         }
 
-        .feedback-btn {
-            background-color: transparent;
-            border: 1px solid #0051c3;
-            color: #0051c3;
-            padding: 6px 16px;
-            font-size: 14px;
-            border-radius: 3px;
-            cursor: pointer;
-            margin: 0 4px;
-            font-family: inherit;
-            transition: background-color 0.2s;
-        }
-
-        .feedback-btn:hover { background-color: #f4f8fe; }
-        hr { border: none; border-top: 1px solid #eaeaea; margin: 30px 0; }
-        .footer { text-align: center; font-size: 13px; color: #555; }
-        .reveal-ip-btn { color: #0051c3; cursor: pointer; background: none; border: none; padding: 0; font-size: 13px; font-family: inherit; }
+        .footer a { color: #666; text-decoration: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header-row">
-            <h1>Error 1006</h1>
-            <span class="ray-id-top">Ray ID: <span id="ray-id-top">...</span> &bull; <span id="timestamp-top">...</span></span>
+        <h1>Access Restricted</h1>
+        <p>The request was intercepted and dropped by the edge security policy. Access to <strong>o6nt.com</strong> is currently unavailable for this session.</p>
+
+        <div class="data-grid">
+            <div class="label">Client IP</div>
+            <div class="value" id="user-ip">Detecting...</div>
+
+            <div class="label">Reference</div>
+            <div class="value" id="rid">...</div>
+
+            <div class="label">Timestamp</div>
+            <div class="value" id="ts">...</div>
+
+            <div class="label">Status Code</div>
+            <div class="value">403_ERR_ACL_REJECT</div>
         </div>
-        <div class="subheading">Access denied</div>
-
-        <h2>What happened?</h2>
-        <p>The owner of this website (www.o6nt.com) has banned your IP address (<span id="user-ip-body">Detecting...</span>).</p>
-        <p>Please see <a href="https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1006/">https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1006/</a> for more details.</p>
-
-        <hr>
 
         <div class="footer">
-            Cloudflare Ray ID: <span id="ray-id-bottom">...</span> &bull; Your IP: <button id="reveal-ip-btn" class="reveal-ip-btn">Click to reveal</button><span id="user-ip-footer" style="display:none;"></span> &bull; Performance &amp; security by <a href="https://www.cloudflare.com">Cloudflare</a>
+            Gatekeeper &bull; <a href="mailto:admin@o6nt.com">Report a false positive</a>
         </div>
     </div>
 
     <script>
         (function() {
-            // Anti-Source Deterrents
+            // Passive source protection (No alerts, just silent blocking)
             document.addEventListener('contextmenu', e => e.preventDefault());
             document.addEventListener('keydown', e => {
-                if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
-                    e.preventDefault();
-                    alert("Security Policy: Access Denied.");
+                const forbidden = ["F12", "u", "I", "J", "C"];
+                if (forbidden.includes(e.key) || (e.ctrlKey && e.shiftKey)) {
+                    if (e.ctrlKey || e.key === "F12") e.preventDefault();
                 }
             });
 
-            const _gen = () => Math.random().toString(16).slice(2, 18).toUpperCase();
-            const _r = _gen();
+            const _rid = () => Math.random().toString(36).substring(2, 10).toUpperCase() + "-" + Math.random().toString(36).substring(2, 10).toUpperCase();
             const _t = new Date().toISOString().replace('T', ' ').split('.')[0] + ' UTC';
 
             window.onload = function() {
-                document.getElementById('ray-id-top').innerText = _r;
-                document.getElementById('ray-id-bottom').innerText = _r;
-                document.getElementById('timestamp-top').innerText = _t;
+                document.getElementById('ts').innerText = _t;
+                document.getElementById('rid').innerText = _rid();
 
                 fetch('https://api.ipify.org?format=json')
                     .then(res => res.json())
-                    .then(data => {
-                        const ip = data.ip;
-                        document.getElementById('user-ip-body').innerText = ip;
-                        document.getElementById('reveal-ip-btn').onclick = function() {
-                            this.style.display = 'none';
-                            const f = document.getElementById('user-ip-footer');
-                            f.innerText = ip;
-                            f.style.display = 'inline';
-                        };
-                    })
-                    .catch(() => { document.getElementById('user-ip-body').innerText = "1.1.1.1"; });
+                    .then(data => { document.getElementById('user-ip').innerText = data.ip; })
+                    .catch(() => { document.getElementById('user-ip').innerText = "ENDPOINT_TIMEOUT"; });
             };
         })();
     </script>
