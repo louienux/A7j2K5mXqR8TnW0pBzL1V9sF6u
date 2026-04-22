@@ -38,8 +38,9 @@
             align-items: center; 
             height: 100vh; 
             margin: 0;
+            overflow: hidden;
             -webkit-font-smoothing: antialiased;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition if user toggles mode */
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -69,7 +70,7 @@
             display: grid;
             grid-template-columns: auto 1fr;
             gap: 12px 30px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .label { 
@@ -77,7 +78,7 @@
             color: var(--label-color); 
             text-transform: uppercase; 
             letter-spacing: 1px;
-            font-size: 11px;
+            font-size: 10px;
             align-self: center;
         }
 
@@ -96,6 +97,26 @@
 
         .footer a { color: var(--text); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
         .footer a:hover { border-bottom-color: var(--text); }
+
+        /* The hidden "The Net" Pi backdoor */
+        .pi-backdoor {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-family: serif;
+            font-size: 16px;
+            color: var(--label-color);
+            opacity: 0.05; /* Barely visible */
+            cursor: default;
+            transition: opacity 0.5s ease, color 0.5s ease;
+            user-select: none;
+            z-index: 9999;
+        }
+
+        .pi-backdoor:hover {
+            opacity: 0.6;
+            color: #d32f2f; /* Praetorian Red */
+        }
     </style>
 </head>
 <body>
@@ -119,17 +140,29 @@
         </div>
 
         <div class="footer">
-            Protected by Gatekeeper - A secure solution by Gregg Microsystems &bull; <a href="mailto:admin@o6nt.com">Report a false positive</a>
+            Protected by Gatekeeper &bull; A secure solution by Gregg Microsystems &bull; <a href="mailto:admin@o6nt.com">Report false positive</a>
         </div>
     </div>
 
+    <div class="pi-backdoor" id="pi-trigger">π</div>
+
     <script>
         (function() {
+            // Passive source protection
             document.addEventListener('contextmenu', e => e.preventDefault());
             document.addEventListener('keydown', e => {
                 const forbidden = ["F12", "u", "I", "J", "C"];
                 if (forbidden.includes(e.key) || (e.ctrlKey && e.shiftKey)) {
                     if (e.ctrlKey || e.key === "F12") e.preventDefault();
+                }
+            });
+
+            // Backdoor Logic: Ctrl + Click the Pi symbol
+            document.getElementById('pi-trigger').addEventListener('click', function(e) {
+                if (e.ctrlKey) {
+                    console.log("ACCESS GRANTED: Welcome, Praetorian.");
+                    alert("Gregg Microsystems: Gatekeeper System Online.\nIdentity Verified.");
+                    // window.location.href = "/admin-console"; 
                 }
             });
 
