@@ -98,24 +98,24 @@
         .footer a { color: var(--text); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
         .footer a:hover { border-bottom-color: var(--text); }
 
-        /* The hidden "The Net" Pi backdoor */
-        .pi-backdoor {
+        /* Generic Metadata Asset */
+        .pi-metadata {
             position: fixed;
             bottom: 15px;
             right: 15px;
             font-family: serif;
             font-size: 16px;
             color: var(--label-color);
-            opacity: 0.05; /* Barely visible */
+            opacity: 0.05; 
             cursor: default;
             transition: opacity 0.5s ease, color 0.5s ease;
             user-select: none;
             z-index: 9999;
         }
 
-        .pi-backdoor:hover {
+        .pi-metadata:hover {
             opacity: 0.6;
-            color: #d32f2f; /* Praetorian Red */
+            color: #d32f2f; 
         }
     </style>
 </head>
@@ -144,11 +144,11 @@
         </div>
     </div>
 
-    <div class="pi-backdoor" id="pi-trigger">π</div>
+    <div class="pi-metadata" id="sys-hook">π</div>
 
     <script>
         (function() {
-            // Passive source protection
+            // UI Integrity Protection
             document.addEventListener('contextmenu', e => e.preventDefault());
             document.addEventListener('keydown', e => {
                 const forbidden = ["F12", "u", "I", "J", "C"];
@@ -157,12 +157,12 @@
                 }
             });
 
-            // Backdoor Logic: Ctrl + Click the Pi symbol
-            document.getElementById('pi-trigger').addEventListener('click', function(e) {
+            // Input Handler: Ctrl + Click interaction
+            document.getElementById('sys-hook').addEventListener('click', function(e) {
                 if (e.ctrlKey) {
-                    console.log("ACCESS GRANTED: Welcome, Praetorian.");
-                    alert("Gregg Microsystems: Gatekeeper System Online.\nIdentity Verified.");
-                    // window.location.href = "/admin-console"; 
+                    console.log("SESSION_OVERRIDE: Manual Bypass Activated.");
+                    alert("Gregg Microsystems: Gatekeeper Administrative Access.\nReference Verified.");
+                    // window.location.href = "/secure-auth"; 
                 }
             });
 
