@@ -47,7 +47,7 @@
         }
 
         /* -------------------------------------------------------------
-           VIEW 1: GLITCH TEXT VIEW (80% Probability)
+           VIEW 1: GLITCH TEXT VIEW (30% Probability)
            ------------------------------------------------------------- */
         .view-glitch {
             display: flex;
@@ -110,7 +110,7 @@
         }
 
         /* -------------------------------------------------------------
-           VIEW 2: 403 FORBIDDEN VIEW (20% Probability)
+           VIEW 2: 403 FORBIDDEN VIEW (70% Probability)
            ------------------------------------------------------------- */
         .view-403 {
             background-color: var(--bg);
@@ -212,11 +212,11 @@
 
     <script>
         (function() {
-            // Determine view based on 20% probability
-            const is403View = Math.random() < 0.20;
+            // 30% chance for glitch view, 70% chance for 403 Forbidden
+            const isGlitchView = Math.random() < 0.30;
             const app = document.getElementById('app');
 
-            if (is403View) {
+            if (!isGlitchView) {
                 // Render 403 Forbidden Page
                 document.title = "403 Forbidden";
                 document.body.style.backgroundColor = "var(--bg)";
@@ -311,7 +311,7 @@
                     });
 
             } else {
-                // Render Glitch Page
+                // Render Glitch Page (30% Probability)
                 document.title = "who saves you?";
                 document.body.style.backgroundColor = "#000000";
 
