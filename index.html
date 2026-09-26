@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">403 Forbidden</title>
+    <title id="page-title">...</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
@@ -27,15 +27,100 @@
                 --label-color: #555555;
             }
         }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000000;
+        }
+
+        /* -------------------------------------------------------------
+           VIEW 1: GLITCH TEXT VIEW (80% Probability)
+           ------------------------------------------------------------- */
+        .view-glitch {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+        }
+
+        .quote-container {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            text-align: center;
+            user-select: none;
+            letter-spacing: -0.2px;
+            padding: 0 20px;
+        }
+
+        .glitch-phrase {
+            position: relative;
+            display: inline-block;
+            color: #ffffff;
+        }
+
+        .glitch-phrase::before,
+        .glitch-phrase::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .glitch-phrase.active::before {
+            left: -3px;
+            text-shadow: 3px 0 #ff0055;
+            clip-path: inset(15% 0 25% 0);
+            opacity: 0.95;
+            transform: skewX(-5deg);
+        }
+
+        .glitch-phrase.active::after {
+            left: 3px;
+            text-shadow: -3px 0 #00e5ff;
+            clip-path: inset(40% 0 10% 0);
+            opacity: 0.95;
+            transform: skewX(5deg);
+        }
+
+        @media (max-width: 600px) {
+            .quote-container {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* -------------------------------------------------------------
+           VIEW 2: 403 FORBIDDEN VIEW (20% Probability)
+           ------------------------------------------------------------- */
+        .view-403 {
+            background-color: var(--bg);
+            color: var(--text);
             font-family: "Open Sans", sans-serif;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
             margin: 0;
             overflow: hidden;
             transition: background-color 0.3s ease;
@@ -48,7 +133,7 @@
             transition: opacity 0.4s ease;
         }
 
-        h1 { 
+        .view-403 h1 { 
             color: var(--highlight); 
             font-size: 42px; 
             font-weight: 300; 
@@ -56,7 +141,7 @@
             letter-spacing: -1px;
         }
 
-        p {
+        .view-403 p {
             font-size: 18px;
             font-weight: 300;
             margin-bottom: 40px;
@@ -123,82 +208,93 @@
 </head>
 <body>
 
-    <div class="container" id="main-content">
-        <div id="error-state">
-            <h1>Access Restricted</h1>
-            <p>The request was intercepted and dropped by the edge security policy. Access to <strong>o6nt.com</strong> is currently unavailable for this session.</p>
-
-            <div class="data-grid">
-                <div class="label">Client IP</div>
-                <div class="value" id="user-ip">Detecting...</div>
-
-                <div class="label">Reference</div>
-                <div class="value" id="rid">...</div>
-
-                <div class="label">Timestamp</div>
-                <div class="value" id="ts">...</div>
-
-                <div class="label">Status Code</div>
-                <div class="value">403_ERR_ACL_REJECT</div>
-            </div>
-
-            <div class="footer">
-                Protected by Gatekeeper &bull; A secure solution by Gregg Microsystems &bull; <a href="mailto:admin@o6nt.com">Report false positive</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="sys-metadata-icon" id="sys-hook-asset">π</div>
+    <div id="app"></div>
 
     <script>
         (function() {
-            const container = document.getElementById('main-content');
-            
-            document.addEventListener('contextmenu', e => e.preventDefault());
-            document.addEventListener('keydown', e => {
-                const forbidden = ["F12", "u", "I", "J", "C"];
-                if (forbidden.includes(e.key) || (e.ctrlKey && e.shiftKey)) {
-                    if (e.ctrlKey || e.key === "F12") e.preventDefault();
-                }
-            });
+            // Determine view based on 20% probability
+            const is403View = Math.random() < 0.20;
+            const app = document.getElementById('app');
 
-            const quoteHTML = `
-                <div class="data-grid" style="border:none; padding:0;">
-                    <div class="quote-text">
-                        "It was my great folly to believe that safety alone would suffice to keep them. I endeavored for years to establish a safe haven, a temporary paradise, thinking that if a man were truly happy, he would never care to wander.
+            if (is403View) {
+                // Render 403 Forbidden Page
+                document.title = "403 Forbidden";
+                document.body.style.backgroundColor = "var(--bg)";
 
-                        But therein lies the paradox. You may offer a soul every comfort, yet it will still crave the cold. As it turns out, my peace was a burden to them; people love the thrill of being dead.
+                app.className = "view-403";
+                app.innerHTML = `
+                    <div class="container" id="main-content">
+                        <div id="error-state">
+                            <h1>Access Restricted</h1>
+                            <p>The request was intercepted and dropped by the edge security policy. Access to <strong>o6nt.com</strong> is currently unavailable for this session.</p>
 
-                        Now that the safety has vanished, they search the dark for it once more. But the one who introduced it, is gone too. He, too, applied his will to the gravity of death... and he prevailed over all."
+                            <div class="data-grid">
+                                <div class="label">Client IP</div>
+                                <div class="value" id="user-ip">Detecting...</div>
+
+                                <div class="label">Reference</div>
+                                <div class="value" id="rid">...</div>
+
+                                <div class="label">Timestamp</div>
+                                <div class="value" id="ts">...</div>
+
+                                <div class="label">Status Code</div>
+                                <div class="value">403_ERR_ACL_REJECT</div>
+                            </div>
+
+                            <div class="footer">
+                                Protected by Gatekeeper &bull; A secure solution by Gregg Microsystems &bull; <a href="mailto:admin@o6nt.com">Report false positive</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="footer">
-                    Origin: Unknown &bull; <a href="javascript:location.reload()">Reset Connection</a>
-                </div>
-            `;
+                    <div class="sys-metadata-icon" id="sys-hook-asset">π</div>
+                `;
 
-            function triggerUnlock() {
-                // Change the browser tab title
-                document.title = "o6nt";
-                
-                container.style.opacity = '0';
-                setTimeout(() => {
-                    container.innerHTML = quoteHTML; 
-                    container.style.opacity = '1';
-                }, 400);
-            }
+                // 403 Page Scripts
+                document.addEventListener('contextmenu', e => e.preventDefault());
+                document.addEventListener('keydown', e => {
+                    const forbidden = ["F12", "u", "I", "J", "C"];
+                    if (forbidden.includes(e.key) || (e.ctrlKey && e.shiftKey)) {
+                        if (e.ctrlKey || e.key === "F12") e.preventDefault();
+                    }
+                });
 
-            document.getElementById('sys-hook-asset').addEventListener('click', function(e) {
-                if (e.ctrlKey) triggerUnlock();
-            });
+                const quoteHTML = `
+                    <div class="data-grid" style="border:none; padding:0;">
+                        <div class="quote-text">
+                            "It was my great folly to believe that safety alone would suffice to keep them. I endeavored for years to establish a safe haven, a temporary paradise, thinking that if a man were truly happy, he would never care to wander.
 
-            window.onload = function() {
+                            But therein lies the paradox. You may offer a soul every comfort, yet it will still crave the cold. As it turns out, my peace was a burden to them; people love the thrill of being dead.
+
+                            Now that the safety has vanished, they search the dark for it once more. But the one who introduced it, is gone too. He, too, applied his will to the gravity of death... and he prevailed over all."
+                        </div>
+                    </div>
+                    <div class="footer">
+                        Origin: Unknown &bull; <a href="javascript:location.reload()">Reset Connection</a>
+                    </div>
+                `;
+
+                function triggerUnlock() {
+                    document.title = "o6nt";
+                    const container = document.getElementById('main-content');
+                    if (container) {
+                        container.style.opacity = '0';
+                        setTimeout(() => {
+                            container.innerHTML = quoteHTML;
+                            container.style.opacity = '1';
+                        }, 400);
+                    }
+                }
+
+                document.getElementById('sys-hook-asset').addEventListener('click', function(e) {
+                    if (e.ctrlKey) triggerUnlock();
+                });
+
                 const tsElem = document.getElementById('ts');
                 const ridElem = document.getElementById('rid');
                 if(tsElem) tsElem.innerText = new Date().toISOString().replace('T', ' ').split('.')[0] + ' UTC';
                 if(ridElem) ridElem.innerText = Math.random().toString(36).substring(2, 10).toUpperCase() + "-" + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-                // 50% chance of random display
                 if (Math.random() < 0.01) {
                     triggerUnlock();
                 }
@@ -213,7 +309,114 @@
                         const ipElem = document.getElementById('user-ip');
                         if(ipElem) ipElem.innerText = "127.0.0.1"; 
                     });
-            };
+
+            } else {
+                // Render Glitch Page
+                document.title = "who saves you?";
+                document.body.style.backgroundColor = "#000000";
+
+                app.className = "view-glitch";
+                app.innerHTML = `
+                    <div class="quote-container">
+                        <span class="glitch-phrase" id="target-phrase" data-text="who saves you?">who saves you?</span>
+                    </div>
+                `;
+
+                const targetPhrase = document.getElementById('target-phrase');
+                const p1 = "who saves you?";
+                const p2 = "me?";
+                const chars = "!@#$%^&*()_+-=[]{}|;:,.<>?/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+                function getRandomGlitchString(len) {
+                    let result = '';
+                    for (let i = 0; i < len; i++) {
+                        result += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    return result;
+                }
+
+                function triggerGlitchSequence() {
+                    targetPhrase.classList.add('active');
+                    let step = 0;
+
+                    // Phase 1: Glitch OUT "who saves you?"
+                    const glitchOutInterval = setInterval(() => {
+                        const scrambled = getRandomGlitchString(p1.length);
+                        targetPhrase.innerText = scrambled;
+                        targetPhrase.setAttribute('data-text', scrambled);
+                        step++;
+
+                        if (step >= 4) {
+                            clearInterval(glitchOutInterval);
+
+                            // Phase 2: Glitch IN to "me?"
+                            let inStep = 0;
+                            const glitchInInterval = setInterval(() => {
+                                const scrambledMe = getRandomGlitchString(p2.length);
+                                targetPhrase.innerText = scrambledMe;
+                                targetPhrase.setAttribute('data-text', scrambledMe);
+                                inStep++;
+
+                                if (inStep >= 3) {
+                                    clearInterval(glitchInInterval);
+
+                                    // Settle clearly on "me?"
+                                    targetPhrase.innerText = p2;
+                                    targetPhrase.setAttribute('data-text', p2);
+                                    targetPhrase.classList.remove('active');
+
+                                    // Hold "me?" readable for 700ms
+                                    setTimeout(() => {
+
+                                        // Phase 3: Glitch OUT "me?"
+                                        targetPhrase.classList.add('active');
+                                        let outMeStep = 0;
+                                        const glitchOutMeInterval = setInterval(() => {
+                                            const scrambledOutMe = getRandomGlitchString(p2.length);
+                                            targetPhrase.innerText = scrambledOutMe;
+                                            targetPhrase.setAttribute('data-text', scrambledOutMe);
+                                            outMeStep++;
+
+                                            if (outMeStep >= 3) {
+                                                clearInterval(glitchOutMeInterval);
+
+                                                // Phase 4: Glitch BACK IN to "who saves you?"
+                                                let backInStep = 0;
+                                                const glitchBackInterval = setInterval(() => {
+                                                    const scrambledBack = getRandomGlitchString(p1.length);
+                                                    targetPhrase.innerText = scrambledBack;
+                                                    targetPhrase.setAttribute('data-text', scrambledBack);
+                                                    backInStep++;
+
+                                                    if (backInStep >= 4) {
+                                                        clearInterval(glitchBackInterval);
+
+                                                        // Fully resolve back to "who saves you?"
+                                                        targetPhrase.innerText = p1;
+                                                        targetPhrase.setAttribute('data-text', p1);
+                                                        targetPhrase.classList.remove('active');
+                                                    }
+                                                }, 40);
+                                            }
+                                        }, 40);
+
+                                    }, 700);
+                                }
+                            }, 40);
+                        }
+                    }, 40);
+                }
+
+                function scheduleGlitch() {
+                    const delay = Math.random() * 2500 + 1800;
+                    setTimeout(() => {
+                        triggerGlitchSequence();
+                        scheduleGlitch();
+                    }, delay);
+                }
+
+                scheduleGlitch();
+            }
         })();
     </script>
 </body>
