@@ -312,19 +312,19 @@
 
             } else {
                 // Render Glitch Page (30% Probability)
-                document.title = "who saves you?";
+                document.title = "me vs me.";
                 document.body.style.backgroundColor = "#000000";
 
                 app.className = "view-glitch";
                 app.innerHTML = `
                     <div class="quote-container">
-                        <span class="glitch-phrase" id="target-phrase" data-text="who saves you?">who saves you?</span>
+                        <span class="glitch-phrase" id="target-phrase" data-text="me vs me.">me vs me.</span>
                     </div>
                 `;
 
                 const targetPhrase = document.getElementById('target-phrase');
-                const p1 = "who saves you?";
-                const p2 = "me?";
+                const p1 = "me vs me.";
+                const p2 = "you're not in the game";
                 const chars = "!@#$%^&*()_+-=[]{}|;:,.<>?/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
                 function getRandomGlitchString(len) {
@@ -339,7 +339,7 @@
                     targetPhrase.classList.add('active');
                     let step = 0;
 
-                    // Phase 1: Glitch OUT "who saves you?"
+                    // Phase 1: Glitch OUT "me vs me."
                     const glitchOutInterval = setInterval(() => {
                         const scrambled = getRandomGlitchString(p1.length);
                         targetPhrase.innerText = scrambled;
@@ -349,7 +349,7 @@
                         if (step >= 4) {
                             clearInterval(glitchOutInterval);
 
-                            // Phase 2: Glitch IN to "me?"
+                            // Phase 2: Glitch IN to "you're not in the game"
                             let inStep = 0;
                             const glitchInInterval = setInterval(() => {
                                 const scrambledMe = getRandomGlitchString(p2.length);
@@ -360,15 +360,15 @@
                                 if (inStep >= 3) {
                                     clearInterval(glitchInInterval);
 
-                                    // Settle clearly on "me?"
+                                    // Settle clearly on "you're not in the game"
                                     targetPhrase.innerText = p2;
                                     targetPhrase.setAttribute('data-text', p2);
                                     targetPhrase.classList.remove('active');
 
-                                    // Hold "me?" readable for 700ms
+                                    // Hold "you're not in the game" readable for 700ms
                                     setTimeout(() => {
 
-                                        // Phase 3: Glitch OUT "me?"
+                                        // Phase 3: Glitch OUT "you're not in the game"
                                         targetPhrase.classList.add('active');
                                         let outMeStep = 0;
                                         const glitchOutMeInterval = setInterval(() => {
@@ -380,7 +380,7 @@
                                             if (outMeStep >= 3) {
                                                 clearInterval(glitchOutMeInterval);
 
-                                                // Phase 4: Glitch BACK IN to "who saves you?"
+                                                // Phase 4: Glitch BACK IN to "me vs me."
                                                 let backInStep = 0;
                                                 const glitchBackInterval = setInterval(() => {
                                                     const scrambledBack = getRandomGlitchString(p1.length);
@@ -391,7 +391,7 @@
                                                     if (backInStep >= 4) {
                                                         clearInterval(glitchBackInterval);
 
-                                                        // Fully resolve back to "who saves you?"
+                                                        // Fully resolve back to "me vs me."
                                                         targetPhrase.innerText = p1;
                                                         targetPhrase.setAttribute('data-text', p1);
                                                         targetPhrase.classList.remove('active');
