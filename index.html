@@ -312,19 +312,19 @@
 
             } else {
                 // Render Glitch Page (30% Probability)
-                document.title = "me vs me.";
+                document.title = "win. ";
                 document.body.style.backgroundColor = "#000000";
 
                 app.className = "view-glitch";
                 app.innerHTML = `
                     <div class="quote-container">
-                        <span class="glitch-phrase" id="target-phrase" data-text="me vs me.">me vs me.</span>
+                        <span class="glitch-phrase" id="target-phrase" data-text="win. ">win.</span>
                     </div>
                 `;
 
                 const targetPhrase = document.getElementById('target-phrase');
-                const p1 = "me vs me.";
-                const p2 = "just do it.";
+                const p1 = "win.";
+                const p2 = "in private.";
                 const chars = "!@#$%^&*()_+-=[]{}|;:,.<>?/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
                 function getRandomGlitchString(len) {
